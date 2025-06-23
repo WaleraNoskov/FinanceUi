@@ -1,26 +1,53 @@
-import { Injectable } from '@angular/core';
-import { Goal } from '../../core/entities/goal';
-import { IGoalRepository } from '../../core/repositories/goal.repository';
+import {Goal} from '../../core/entities/goal';
+import {IGoalRepository} from '../../core/repositories/goal.repository';
+import {DBSchema} from 'idb';
+import {IndexedDbService} from '../indexed-db.service';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class LocalGoalRepository implements IGoalRepository {
-  private goals: Goal[] = [];
 
-  async getAll(): Promise<Goal[]> {
-    return this.goals;
+  constructor(private readonly dbService: IndexedDbService) {
   }
 
-  async getById(id: string): Promise<Goal | null> {
-    return this.goals.find(g => g.id === id) ?? null;
+  async getAll(offset: number, limit: number): Promise<Goal[]> {
+    const db = await this.dbService.db;
+    const store = db.transaction('goals', 'readonly').objectStore('goals');
+
+    const result: Goal[] = [];
+    let cursor = await store.openCursor();
+    let skipped = 0;
+    let taken = 0;
+
+    while (cursor && taken < limit) {
+      if (skipped < offset) skipped++;
+      else {
+        result.push(cursor.value);
+        taken++;
+      }
+      cursor = await cursor.continue();
+    }
+
+    return result;
   }
 
-  async save(goal: Goal): Promise<void> {
-    const index = this.goals.findIndex(g => g.id === goal.id);
-    if (index >= 0) this.goals[index] = goal;
-    else this.goals.push(goal);
+  async getById(id: string): Promise<Goal | undefined> {
+    const db = await this.dbService.db;
+    return db.get('goals', id);
+  }
+
+  async add(goal: Goal): Promise<void> {
+    const db = await this.dbService.db;
+    await db.add('goals', goal);
+  }
+
+  async update(goal: Goal): Promise<void> {
+    const db = await this.dbService.db;
+    await db.put('goals', goal);
   }
 
   async delete(id: string): Promise<void> {
-    this.goals = this.goals.filter(g => g.id !== id);
+    const db = await this.dbService.db;
+    await db.delete('goals', id);
   }
 }
