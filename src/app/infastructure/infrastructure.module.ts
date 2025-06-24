@@ -1,9 +1,7 @@
-import { NgModule, InjectionToken } from '@angular/core';
-import { IGoalRepository } from '../core/repositories/goal.repository';
+import { NgModule } from '@angular/core';
 import { LocalGoalRepository } from './repositories/goal.repository.local';
 import {IndexedDbService} from './indexed-db.service';
-
-export const GOAL_REPOSITORY = new InjectionToken<IGoalRepository>('GOAL_REPOSITORY');
+import {GOAL_REPOSITORY} from './injection-tokens';
 
 @NgModule({
   providers: [

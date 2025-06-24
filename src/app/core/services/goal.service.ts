@@ -1,9 +1,13 @@
 import {Goal} from '../entities/goal';
 
 export interface IGoalService {
-  getAll(): Promise<Goal[]>;
-  getById(id: string): Promise<Goal>;
-  add(goal: Goal): Promise<void>;
-  update(goalId: string, goal: Goal): Promise<void>;
-  delete(goalId: string): Promise<void>;
+  getGoals(offset: number, limit: number): Promise<Goal[]>;
+
+  getById(id: string): Promise<Goal | undefined>;
+
+  create(goal: Goal): Promise<void>;
+
+  update(goal: Goal): Promise<void>;
+
+  delete(id: string): Promise<void>;
 }

@@ -1,20 +1,32 @@
-import { Goal } from '../../core/entities/goal';
+import {Goal} from '../../core/entities/goal';
 import {IGoalService} from '../../core/services/goal.service';
+import {Inject, Injectable} from '@angular/core';
+import {IGoalRepository} from '../../core/repositories/goal.repository';
+import {GOAL_REPOSITORY} from '../../infastructure/injection-tokens';
 
+@Injectable({providedIn: 'root'})
 export class GoalService implements IGoalService {
-    getAll(): Promise<Goal[]> {
-        throw new Error('Method not implemented.');
-    }
-    getById(id: string): Promise<Goal> {
-        throw new Error('Method not implemented.');
-    }
-    add(goal: Goal): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
-    update(goalId: string, goal: Goal): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
-    delete(goalId: string): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
+
+  constructor(@Inject(GOAL_REPOSITORY) private readonly goalRepository: IGoalRepository) {
+  }
+
+  getGoals(offset = 0, limit = 20): Promise<Goal[]> {
+    return this.goalRepository.getAll(offset, limit);
+  }
+
+  getById(id: string): Promise<Goal | undefined> {
+    return this.goalRepository.getById(id);
+  }
+
+  create(goal: Goal): Promise<void> {
+    return this.goalRepository.add(goal);
+  }
+
+  update(goal: Goal): Promise<void> {
+    return this.goalRepository.update(goal);
+  }
+
+  delete(id: string): Promise<void> {
+    return this.goalRepository.delete(id);
+  }
 }
