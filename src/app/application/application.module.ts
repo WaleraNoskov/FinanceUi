@@ -1,12 +1,6 @@
-import { NgModule, InjectionToken } from '@angular/core';
-import {IGoalService} from '../core/services/goal.service';
+import {GOAL_SERVICE} from '../core/services/services.injection-tokens';
 import {GoalService} from './services/goal.service.impl';
 
-export const GOAL_SERVICE = new InjectionToken<IGoalService>('GOAL_SERVICE');
-
-@NgModule({
-  providers: [
-    { provide: GOAL_SERVICE, useClass: GoalService }
-  ]
-})
-export class InfrastructureModule {}
+export function provideApplicationServices() {
+  return {provide: GOAL_SERVICE, useClass: GoalService}
+}

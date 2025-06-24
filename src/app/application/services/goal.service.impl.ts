@@ -2,7 +2,7 @@ import {Goal} from '../../core/entities/goal';
 import {IGoalService} from '../../core/services/goal.service';
 import {Inject, Injectable} from '@angular/core';
 import {IGoalRepository} from '../../core/repositories/goal.repository';
-import {GOAL_REPOSITORY} from '../../infastructure/injection-tokens';
+import {GOAL_REPOSITORY} from '../../core/repositories/repositories.injection-tokens';
 
 @Injectable({providedIn: 'root'})
 export class GoalService implements IGoalService {
