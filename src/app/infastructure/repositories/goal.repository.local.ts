@@ -1,8 +1,8 @@
 import {Goal} from '../../core/entities/goal';
 import {IGoalRepository} from '../../core/repositories/goal.repository';
-import {DBSchema} from 'idb';
 import {IndexedDbService} from '../indexed-db.service';
 import {Injectable} from '@angular/core';
+import {v4 as uuidv4} from 'uuid';
 
 @Injectable()
 export class LocalGoalRepository implements IGoalRepository {
@@ -36,9 +36,11 @@ export class LocalGoalRepository implements IGoalRepository {
     return db.get('goals', id);
   }
 
-  async add(goal: Goal): Promise<void> {
+  async add(goal: Goal): Promise<string> {
     const db = await this.dbService.db;
-    await db.add('goals', goal);
+
+    goal.id = uuidv4();
+    return await db.add('goals', goal);
   }
 
   async update(goal: Goal): Promise<void> {

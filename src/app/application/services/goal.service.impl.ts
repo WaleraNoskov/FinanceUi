@@ -18,7 +18,7 @@ export class GoalService implements IGoalService {
     return this.goalRepository.getById(id);
   }
 
-  create(goal: Goal): Promise<void> {
+  create(goal: Goal): Promise<string> {
     return this.goalRepository.add(goal);
   }
 

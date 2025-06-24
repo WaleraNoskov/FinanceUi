@@ -5,7 +5,7 @@ export interface IGoalService {
 
   getById(id: string): Promise<Goal | undefined>;
 
-  create(goal: Goal): Promise<void>;
+  create(goal: Goal): Promise<string>;
 
   update(goal: Goal): Promise<void>;
 

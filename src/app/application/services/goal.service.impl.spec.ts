@@ -1,8 +1,8 @@
 import {GoalService} from './goal.service.impl';
 import {IGoalRepository} from '../../core/repositories/goal.repository';
 import {TestBed} from '@angular/core/testing';
-import {GOAL_REPOSITORY} from '../../infastructure/injection-tokens';
 import {Goal} from '../../core/entities/goal';
+import {GOAL_REPOSITORY} from '../../core/repositories/repositories.injection-tokens';
 
 describe('GoalService', () => {
   let service: GoalService;
