@@ -60,9 +60,12 @@ import {MatButton} from '@angular/material/button';
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-        <div>
-          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-            Сохранить
+        <div class="buttons-footer">
+          <button matButton="filled" type="submit" [disabled]="form.invalid">
+            Save
+          </button>
+          <button matButton="tonal" (click)="cancel()">
+            Cancel
           </button>
         </div>
       </form>
@@ -78,6 +81,13 @@ import {MatButton} from '@angular/material/button';
       flex-direction: column;
       gap: 8px;
     }
+
+    .buttons-footer {
+      display: flex;
+      flex-direction: row;
+      align-self: end;
+      gap: 8px;
+    }
   `
 })
 export class AddOrEditGoal {
@@ -91,10 +101,9 @@ export class AddOrEditGoal {
 
   ngOnInit() {
     this.form = this.fb.group({
-      title: ['', Validators.required],
-      description: [''],
-      amount: [0, [Validators.required, Validators.min(0)]],
-      deadline: [''],
+      title: [this.goal?.title ?? '', Validators.required],
+      amount: [this.goal?.targetAmount ?? 0, [Validators.required, Validators.min(0)]],
+      deadline: [this.goal?.deadline ?? new Date()],
     });
   }
 

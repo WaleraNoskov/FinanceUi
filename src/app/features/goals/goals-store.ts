@@ -30,7 +30,11 @@ export class GoalStore {
 
   updateGoal(goal: Goal) {
     this.service.update(goal)
-      .then(() => this.goals.update(list => [...list, goal]));
+      .then(() => this.goals.update(list => {
+        const index = list.indexOf(list.filter(goal => goal.id === goal.id)[0])
+        list[index] = goal;
+        return list;
+      }));
   }
 
   deleteGoal(id: string) {

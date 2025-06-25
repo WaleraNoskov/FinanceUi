@@ -5,6 +5,7 @@ import {MatFabButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {GoalsList} from './goals-list/goals-list';
 import {AddOrEditGoalDialogService} from './add-or-edit-goal/add-or-edit-goal-dialog-service';
+import {Goal} from '../../core/entities/goal';
 
 @Component({
   standalone: true,
@@ -13,32 +14,39 @@ import {AddOrEditGoalDialogService} from './add-or-edit-goal/add-or-edit-goal-di
   template: `
     <div class="goal-container">
       <div>
-        <button class="fab-button" matFab (click)="openAddOrEdit()">
+        <button class="fab-button" matFab (click)="openAddDialog()">
           <mat-icon>add</mat-icon>
         </button>
 
-        <app-goals-list [goalList]="store.goalList()" (deleted)="delete($event)"/>
+        <app-goals-list [goalList]="store.goalList()" (deleted)="delete($event)" (needToUpdate)="onUpdateEmitted($event)"/>
       </div>
     </div>
   `,
-  styleUrl: './goals.scss'
+  styleUrl: './goals-component.scss'
 })
 
-export class Goals {
+export class GoalsComponent {
   constructor(
     public store: GoalStore,
     private readonly addOrEditGoalDialogService: AddOrEditGoalDialogService) {
     effect(() => this.store.loadGoals());
   }
 
-  openAddOrEdit() {
+  openAddDialog() {
     this.addOrEditGoalDialogService.open().subscribe(goal => {
       if (goal)
         this.store.addGoal(goal);
     })
   }
 
-  delete(id: string) {
-    this.store.deleteGoal(id);
+  onUpdateEmitted(goal: Goal) {
+    this.addOrEditGoalDialogService.open(goal).subscribe(goal => {
+      if (goal)
+        this.store.updateGoal(goal);
+    });
+  }
+
+  delete(goal: Goal) {
+    this.store.deleteGoal(goal.id);
   }
 }

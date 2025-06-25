@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {Goals} from './features/goals/goals';
+import {GoalsComponent} from './features/goals/goals-component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Goals],
+  imports: [RouterOutlet, GoalsComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

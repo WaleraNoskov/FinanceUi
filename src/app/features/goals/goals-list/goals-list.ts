@@ -23,7 +23,10 @@ import {Goal} from '../../../core/entities/goal';
             <span matListItemTitle>{{ goal.title }}</span>
             <span matListItemLine>{{ goal.currentAmount }} of {{ goal.targetAmount }}</span>
             <div matListItemMeta>
-              <button matIconButton aria-label="Delete goal" (click)="delete(goal.id)">
+              <button matIconButton aria-label="Edit goal" (click)="update(goal)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button matIconButton aria-label="Delete goal" (click)="delete(goal)">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -36,9 +39,14 @@ import {Goal} from '../../../core/entities/goal';
 })
 export class GoalsList {
   @Input() goalList: Goal[] = [];
-  @Output() deleted: EventEmitter<string> = new EventEmitter();
+  @Output() deleted: EventEmitter<Goal> = new EventEmitter();
+  @Output() needToUpdate: EventEmitter<Goal> = new EventEmitter();
 
-  delete(id: string) {
-    this.deleted.emit(id);
+  update(goal: Goal) {
+    this.needToUpdate.emit(goal);
+  }
+
+  delete(goal: Goal) {
+    this.deleted.emit(goal);
   }
 }

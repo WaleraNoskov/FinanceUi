@@ -17,6 +17,8 @@ export class AddOrEditGoalDialogService {
     const instance = ref.componentInstance;
     instance.goal = goal ?? null;
 
+    console.log(instance.goal);
+
     const result$ = new Subject<Goal | undefined>();
 
     instance.saved.subscribe(result => {
