@@ -45,8 +45,8 @@ import {MatButton} from '@angular/material/button';
 
         <mat-form-field >
           <mat-label>Amount</mat-label>
-          <input matInput type="number" formControlName="amount" required>
-          @if (form.get('amount')?.hasError('min')) {
+          <input matInput type="number" formControlName="targetAmount" required>
+          @if (form.get('targetAmount')?.hasError('min')) {
             <mat-error>
               Amount should be greater than 0
             </mat-error>
