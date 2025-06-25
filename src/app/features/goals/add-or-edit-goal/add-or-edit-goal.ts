@@ -102,7 +102,8 @@ export class AddOrEditGoal {
   ngOnInit() {
     this.form = this.fb.group({
       title: [this.goal?.title ?? '', Validators.required],
-      amount: [this.goal?.targetAmount ?? 0, [Validators.required, Validators.min(0)]],
+      currentAmount: 0,
+      targetAmount: [this.goal?.targetAmount ?? 0, [Validators.required, Validators.min(0)]],
       deadline: [this.goal?.deadline ?? new Date()],
     });
   }
