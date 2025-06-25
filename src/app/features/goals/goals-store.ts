@@ -5,35 +5,36 @@ import {GOAL_SERVICE} from "../../core/services/services.injection-tokens";
 
 @Injectable({providedIn: 'root'})
 export class GoalStore {
-    private goals = signal<Goal[]>([]);
-    private loading = signal(false);
+  private goals = signal<Goal[]>([]);
+  private loading = signal(false);
 
-    readonly goalList = computed(() => this.goals());
-    readonly isLoading = computed(() => this.loading());
+  readonly goalList = computed(() => this.goals());
+  readonly isLoading = computed(() => this.loading());
 
-    constructor(@Inject(GOAL_SERVICE) private readonly service: IGoalService) {
-    }
+  constructor(@Inject(GOAL_SERVICE) private readonly service: IGoalService) {
+  }
 
-    loadGoals(offset = 0, limit = 20) {
-        this.loading.set(true);
-        this.service.getGoals(offset, limit)
-            .then(data => {
-                this.goals.set(data);
-                this.loading.set(false);
-            });
-    }
+  loadGoals(offset = 0, limit = 20) {
+    this.loading.set(true);
+    this.service.getGoals(offset, limit)
+      .then(data => {
+        this.goals.set(data);
+        this.loading.set(false);
+      });
+  }
 
-    addGoal(goal: Goal) {
-        this.service.create(goal)
-            .then(() => {
-                this.goals.update(list => [...list, goal]);
-            });
-    }
+  addGoal(goal: Goal) {
+    this.service.create(goal)
+      .then(() => this.goals.update(list => [...list, goal]));
+  }
 
-    deleteGoal(id: string) {
-        this.service.delete(id)
-            .then(() => {
-                this.goals.update(list => list.filter(g => g.id !== id));
-            });
-    }
+  updateGoal(goal: Goal) {
+    this.service.update(goal)
+      .then(() => this.goals.update(list => [...list, goal]));
+  }
+
+  deleteGoal(id: string) {
+    this.service.delete(id)
+      .then(() => this.goals.update(list => list.filter(g => g.id !== id)));
+  }
 }

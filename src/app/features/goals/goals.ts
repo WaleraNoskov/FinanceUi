@@ -4,6 +4,7 @@ import {GoalStore} from './goals-store';
 import {MatFabButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {GoalsList} from './goals-list/goals-list';
+import {AddOrEditGoalDialogService} from './add-or-edit-goal/add-or-edit-goal-dialog-service';
 
 @Component({
   standalone: true,
@@ -12,7 +13,7 @@ import {GoalsList} from './goals-list/goals-list';
   template: `
     <div class="goal-container">
       <div>
-        <button class="fab-button" matFab (click)="create()">
+        <button class="fab-button" matFab (click)="openAddOrEdit()">
           <mat-icon>add</mat-icon>
         </button>
 
@@ -22,13 +23,19 @@ import {GoalsList} from './goals-list/goals-list';
   `,
   styleUrl: './goals.scss'
 })
+
 export class Goals {
-  constructor(public store: GoalStore) {
+  constructor(
+    public store: GoalStore,
+    private readonly addOrEditGoalDialogService: AddOrEditGoalDialogService) {
     effect(() => this.store.loadGoals());
   }
 
-  create(){
-    this.store.addGoal({id: '', title: 'title', currentAmount: 0, targetAmount: 12000, deadline: new Date()});
+  openAddOrEdit() {
+    this.addOrEditGoalDialogService.open().subscribe(goal => {
+      if (goal)
+        this.store.addGoal(goal);
+    })
   }
 
   delete(id: string) {
