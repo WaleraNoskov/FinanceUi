@@ -4,7 +4,9 @@ import {Board} from '../../core/entities/board';
 import {IBoardRepository} from '../../core/repositories/board.repository';
 import {IndexedDbService} from '../indexed-db.service';
 import {v4 as uuidv4} from 'uuid';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class BoardRepositoryLocal implements IBoardRepository {
   constructor(private readonly dbService: IndexedDbService) {
   }
