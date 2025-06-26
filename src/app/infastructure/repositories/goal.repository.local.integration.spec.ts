@@ -7,13 +7,14 @@ describe('IndexedDbGoalRepository', () => {
   let repo: LocalGoalRepository;
   let service: IndexedDbService;
 
-  const createGoal = (): Goal => {
+  const createGoal = (boardId = 'defaultBoardId'): Goal => {
     return {
       id: uuidv4(),
       title: `Goal ${uuidv4()}`,
       targetAmount: 1000,
       currentAmount: 100,
-      deadline: new Date()
+      deadline: new Date(),
+      boardId: boardId
     };
   };
 
@@ -61,9 +62,9 @@ describe('IndexedDbGoalRepository', () => {
       await repo.add(g);
     });
 
-    const allItems = await repo.getAll({offset: 0, limit: 10});
+    const allItems = await repo.getAll({offset: 0, limit: 10}, 'defaultBoardId');
 
-    const page = await repo.getAll({offset: 4, limit: 4});
+    const page = await repo.getAll({offset: 4, limit: 4}, 'defaultBoardId');
     expect(page.items.length).toBe(4);
     expect(page.items[0].id).toBe(allItems.items[4].id);
     expect(page.items[3].id).toBe(allItems.items[7].id);

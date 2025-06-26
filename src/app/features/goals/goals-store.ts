@@ -21,7 +21,7 @@ export class GoalStore {
   loadGoals(offset = 0, limit = 10): void {
     this.pagination.set({offset, limit});
     this.loading.set(true);
-    this.service.getGoals({offset: offset, limit: limit})
+    this.service.getGoals({offset: offset, limit: limit}, '')
       .then(data => {
         this.goals.set(data.items)
         this.totalCount.set(data.total)

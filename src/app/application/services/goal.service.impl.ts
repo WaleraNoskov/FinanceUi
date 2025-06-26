@@ -12,8 +12,8 @@ export class GoalService implements IGoalService {
   constructor(@Inject(GOAL_REPOSITORY) private readonly goalRepository: IGoalRepository) {
   }
 
-  getGoals(pagination: PaginationParams): Promise<PaginationResult<Goal>> {
-    return this.goalRepository.getAll(pagination);
+  getGoals(pagination: PaginationParams, boardId: string): Promise<PaginationResult<Goal>> {
+    return this.goalRepository.getAll(pagination, boardId);
   }
 
   getById(id: string): Promise<Goal | undefined> {

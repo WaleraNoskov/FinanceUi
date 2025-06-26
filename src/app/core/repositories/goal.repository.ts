@@ -4,7 +4,7 @@ import {PaginationResult} from '../contracts/pagination-result';
 
 
 export interface IGoalRepository {
-  getAll(pagination: PaginationParams): Promise<PaginationResult<Goal>>;
+  getAll(pagination: PaginationParams, boardId: string): Promise<PaginationResult<Goal>>;
   getById(id: string): Promise<Goal | undefined>;
   add(goal: Goal): Promise<string>;
   update(goal: Goal): Promise<void>;

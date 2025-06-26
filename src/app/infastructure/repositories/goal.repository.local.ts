@@ -12,26 +12,31 @@ export class LocalGoalRepository implements IGoalRepository {
   constructor(private readonly dbService: IndexedDbService) {
   }
 
-  async getAll(pagination: PaginationParams): Promise<PaginationResult<Goal>> {
+  async getAll(pagination: PaginationParams, boardId: string): Promise<PaginationResult<Goal>> {
     const db = await this.dbService.db;
     const store = db.transaction('goals', 'readonly').objectStore('goals');
-    const result: PaginationResult<Goal> = {items: [], total: 0};
-
-    result.total = await store.count();
+    const result: PaginationResult<Goal> = { items: [], total: 0 };
 
     let cursor = await store.openCursor();
     let skipped = 0;
     let taken = 0;
+    let matched = 0;
 
-    while (cursor && taken < pagination.limit) {
-      if (skipped < pagination.offset) skipped++;
-      else {
-        result.items.push(cursor.value);
-        taken++;
+    while (cursor) {
+      const goal: Goal = cursor.value;
+      if (goal.boardId === boardId) {
+        matched++;
+        if (skipped < pagination.offset) {
+          skipped++;
+        } else if (taken < pagination.limit) {
+          result.items.push(goal);
+          taken++;
+        }
       }
       cursor = await cursor.continue();
     }
 
+    result.total = matched;
     return result;
   }
 
