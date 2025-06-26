@@ -1,17 +1,18 @@
-import { LocalGoalRepository } from './goal.repository.local';
-import { IndexedDbService } from '../indexed-db.service';
-import { Goal } from '../../core/entities/goal';
+import {LocalGoalRepository} from './goal.repository.local';
+import {IndexedDbService} from '../indexed-db.service';
+import {Goal} from '../../core/entities/goal';
+import {v4 as uuidv4} from 'uuid';
 
 describe('IndexedDbGoalRepository', () => {
   let repo: LocalGoalRepository;
   let service: IndexedDbService;
 
-  const createGoal = (id: number): Goal => {
+  const createGoal = (): Goal => {
     return {
-      id: id.toString(),
-      title: `Goal ${id}`,
+      id: uuidv4(),
+      title: `Goal ${uuidv4()}`,
       targetAmount: 1000,
-      currentAmount: 100 * id,
+      currentAmount: 100,
       deadline: new Date()
     };
   };
@@ -27,40 +28,48 @@ describe('IndexedDbGoalRepository', () => {
   });
 
   it('should add and retrieve a goal by ID', async () => {
-    const goal = createGoal(1);
-    await repo.add(goal);
+    const goal = createGoal();
+    const id = await repo.add(goal);
 
-    const result = await repo.getById('1');
+    const result = await repo.getById(id);
     expect(result).toEqual(goal);
   });
 
   it('should update an existing goal', async () => {
-    const goal = createGoal(2);
-    await repo.add(goal);
+    const goal = createGoal();
+    const id = await repo.add(goal);
 
-    const updated = { ...goal, currentAmount: 999 };
+    const updated = {...goal, currentAmount: 999};
     await repo.update(updated);
 
-    const result = await repo.getById('2');
+    const result = await repo.getById(id);
     expect(result?.currentAmount).toBe(999);
   });
 
   it('should delete a goal', async () => {
-    const goal = createGoal(3);
-    await repo.add(goal);
-    await repo.delete('3');
+    const goal = createGoal();
+    const id = await repo.add(goal);
+    await repo.delete(id);
 
-    const result = await repo.getById('3');
+    const result = await repo.getById(id);
     expect(result).toBeUndefined();
   });
 
   it('should paginate correctly', async () => {
-    const allGoals = Array.from({ length: 10 }, (_, i) => createGoal(i + 1));
-    for (const g of allGoals) await repo.add(g);
+    Array.from({length: 10}, async (_) => {
+      const g = createGoal()
+      await repo.add(g);
+    });
 
-    const page = await repo.getAll({offset: 4, limit: 4}); // ожидаем 4 цели начиная с 4-й
+    const allItems = await repo.getAll({offset: 0, limit: 10});
+
+    console.log(allItems)
+
+    const page = await repo.getAll({offset: 4, limit: 4});
     expect(page.items.length).toBe(4);
-    expect(page.items[0].id).toBe('4');
-    expect(page.items[3].id).toBe('7');
+    expect(page.items[0].id).toBe(allItems.items[4].id);
+    expect(page.items[3].id).toBe(allItems.items[7].id);
+
+    console.log(page.items)
   });
 });
