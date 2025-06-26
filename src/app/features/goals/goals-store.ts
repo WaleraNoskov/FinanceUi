@@ -9,7 +9,6 @@ export class GoalStore {
   constructor(@Inject(GOAL_SERVICE) private readonly service: IGoalService) {
   }
 
-
   private readonly goals = signal<Goal[]>([]);
   private readonly loading = signal(false);
   private readonly totalCount = signal(0)
