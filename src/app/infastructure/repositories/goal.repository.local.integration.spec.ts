@@ -63,13 +63,9 @@ describe('IndexedDbGoalRepository', () => {
 
     const allItems = await repo.getAll({offset: 0, limit: 10});
 
-    console.log(allItems)
-
     const page = await repo.getAll({offset: 4, limit: 4});
     expect(page.items.length).toBe(4);
     expect(page.items[0].id).toBe(allItems.items[4].id);
     expect(page.items[3].id).toBe(allItems.items[7].id);
-
-    console.log(page.items)
   });
 });
