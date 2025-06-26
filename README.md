@@ -1,5 +1,6 @@
 # 💸 A Smarter Way to Manage Your Money.
-This is not just another budgeting tool. It’s a **next-generation financial planning system** designed for people who want to **clearly connect income and expenses, understand their financial future,** and **grow their financial literacy** — whether managing personal funds, a family budget, or a team’s shared finances.
+This is not just another budgeting tool. It’s a **next-generation financial planning system** designed for people who want to **clearly connect income and expenses, understand their financial future,** and **grow their financial literacy** — whether managing personal funds, a family budget, or a team’s shared finances.\
+**Docs (Russian)**: https://www.notion.so/1d11ca0d16ef80469713d319ca1163cb (English coming soon).
 
 ## 🚀 Why This Project?
 - **Real-life financial modeling:** Plan your income and attach expenses directly to each source, just like you do on paper.
