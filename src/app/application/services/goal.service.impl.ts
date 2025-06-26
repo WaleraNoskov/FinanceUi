@@ -12,23 +12,23 @@ export class GoalService implements IGoalService {
   constructor(@Inject(GOAL_REPOSITORY) private readonly goalRepository: IGoalRepository) {
   }
 
-  getGoals(pagination: PaginationParams, boardId: string): Promise<PaginationResult<Goal>> {
-    return this.goalRepository.getAll(pagination, boardId);
+  async getGoals(pagination: PaginationParams, boardId: string): Promise<PaginationResult<Goal>> {
+    return await this.goalRepository.getAll(pagination, boardId);
   }
 
-  getById(id: string): Promise<Goal | undefined> {
-    return this.goalRepository.getById(id);
+  async getById(id: string): Promise<Goal | undefined> {
+    return await this.goalRepository.getById(id);
   }
 
-  create(goal: Goal): Promise<string> {
-    return this.goalRepository.add(goal);
+  async create(goal: Goal): Promise<string> {
+    return await this.goalRepository.add(goal);
   }
 
-  update(goal: Goal): Promise<void> {
-    return this.goalRepository.update(goal);
+  async update(goal: Goal): Promise<void> {
+    return await this.goalRepository.update(goal);
   }
 
-  delete(id: string): Promise<void> {
-    return this.goalRepository.delete(id);
+  async delete(id: string): Promise<void> {
+    return await this.goalRepository.delete(id);
   }
 }

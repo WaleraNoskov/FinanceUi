@@ -18,20 +18,20 @@ export class GoalStore {
   readonly totalGoalsCount = computed(() => this.totalCount());
   readonly currentPagination = computed(() => this.pagination());
 
-  loadGoals(offset = 0, limit = 10): void {
+  async loadGoals(offset = 0, limit = 10): Promise<void> {
     this.pagination.set({offset, limit});
     this.loading.set(true);
-    this.service.getGoals({offset: offset, limit: limit}, '')
-      .then(data => {
-        this.goals.set(data.items)
-        this.totalCount.set(data.total)
-      })
-      .finally(() => this.loading.set(false));
+
+    const goals = await this.service.getGoals({offset:offset, limit: limit}, '');
+    this.goals.set(goals.items);
+    this.totalCount.set(goals.total);
+
+    this.loading.set(false);
   }
 
-  refresh(): void {
+  async refresh(): Promise<void> {
     const {offset, limit} = this.pagination();
-    this.loadGoals(offset, limit);
+    await this.loadGoals(offset, limit);
   }
 
   async addGoal(goal: Goal): Promise<void> {
