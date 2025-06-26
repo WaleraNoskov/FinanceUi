@@ -1,44 +1,51 @@
-import {computed, Inject, Injectable, signal} from '@angular/core';
+import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {Goal} from '../../core/entities/goal';
 import {IGoalService} from '../../core/services/goal.service';
 import {GOAL_SERVICE} from "../../core/services/services.injection-tokens";
+import {PaginationParams} from '../../core/contracts/pagination-params';
 
 @Injectable({providedIn: 'root'})
 export class GoalStore {
-  private goals = signal<Goal[]>([]);
-  private loading = signal(false);
+  private readonly service = inject<IGoalService>(GOAL_SERVICE);
+
+  private readonly goals = signal<Goal[]>([]);
+  private readonly loading = signal(false);
+  private readonly totalCount = signal(0)
+  private readonly pagination: WritableSignal<PaginationParams> = signal({offset: 0, limit: 10});
 
   readonly goalList = computed(() => this.goals());
   readonly isLoading = computed(() => this.loading());
+  readonly totalGoalsCount = computed(() => this.totalCount());
+  readonly currentPagination = computed(() => this.pagination());
 
-  constructor(@Inject(GOAL_SERVICE) private readonly service: IGoalService) {
-  }
-
-  loadGoals(offset = 0, limit = 20) {
+  loadGoals(offset = 0, limit = 10): void {
+    this.pagination.set({offset, limit});
     this.loading.set(true);
-    this.service.getGoals(offset, limit)
+    this.service.getGoals({offset: offset, limit: limit})
       .then(data => {
-        this.goals.set(data);
-        this.loading.set(false);
-      });
+        this.goals.set(data.items)
+        this.totalCount.set(data.total)
+      })
+      .finally(() => this.loading.set(false));
   }
 
-  addGoal(goal: Goal) {
-    this.service.create(goal)
-      .then(() => this.goals.update(list => [...list, goal]));
+  refresh(): void {
+    const {offset, limit} = this.pagination();
+    this.loadGoals(offset, limit);
   }
 
-  updateGoal(goal: Goal) {
-    this.service.update(goal)
-      .then(() => this.goals.update(list => {
-        const index = list.indexOf(list.filter(goal => goal.id === goal.id)[0])
-        list[index] = goal;
-        return list;
-      }));
+  async addGoal(goal: Goal): Promise<void> {
+    await this.service.create(goal);
+    return this.refresh();
   }
 
-  deleteGoal(id: string) {
-    this.service.delete(id)
-      .then(() => this.goals.update(list => list.filter(g => g.id !== id)));
+  async updateGoal(goal: Goal): Promise<void> {
+    await this.service.update(goal);
+    return this.refresh();
+  }
+
+  async deleteGoal(id: string): Promise<void> {
+    await this.service.delete(id);
+    return this.refresh();
   }
 }

@@ -3,6 +3,7 @@ import {IGoalRepository} from '../../core/repositories/goal.repository';
 import {TestBed} from '@angular/core/testing';
 import {Goal} from '../../core/entities/goal';
 import {GOAL_REPOSITORY} from '../../core/repositories/repositories.injection-tokens';
+import {PaginationResult} from '../../core/contracts/pagination-result';
 
 describe('GoalService', () => {
   let service: GoalService;
@@ -24,12 +25,15 @@ describe('GoalService', () => {
   });
 
   it('should fetch goals with pagination', async () => {
-    const mockGoals: Goal[] = [{id: '1', title: 'Test', targetAmount: 100, currentAmount: 0, deadline: new Date()}];
+    const mockGoals: PaginationResult<Goal> = {
+      total: 1,
+      items: [{id: '1', title: 'Test', targetAmount: 100, currentAmount: 0, deadline: new Date()}]
+    };
     mockRepository.getAll.and.resolveTo(mockGoals);
 
-    const result = await service.getGoals(0, 10);
+    const result = await service.getGoals({offset: 0, limit: 10});
 
-    expect(mockRepository.getAll).toHaveBeenCalledWith(0, 10);
+    expect(mockRepository.getAll).toHaveBeenCalledWith({offset: 0, limit: 10});
     expect(result).toEqual(mockGoals);
   });
 

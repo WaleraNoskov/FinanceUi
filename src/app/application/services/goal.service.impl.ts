@@ -3,6 +3,8 @@ import {IGoalService} from '../../core/services/goal.service';
 import {Inject, Injectable} from '@angular/core';
 import {IGoalRepository} from '../../core/repositories/goal.repository';
 import {GOAL_REPOSITORY} from '../../core/repositories/repositories.injection-tokens';
+import {PaginationParams} from '../../core/contracts/pagination-params';
+import {PaginationResult} from '../../core/contracts/pagination-result';
 
 @Injectable({providedIn: 'root'})
 export class GoalService implements IGoalService {
@@ -10,8 +12,8 @@ export class GoalService implements IGoalService {
   constructor(@Inject(GOAL_REPOSITORY) private readonly goalRepository: IGoalRepository) {
   }
 
-  getGoals(offset = 0, limit = 20): Promise<Goal[]> {
-    return this.goalRepository.getAll(offset, limit);
+  getGoals(pagination: PaginationParams): Promise<PaginationResult<Goal>> {
+    return this.goalRepository.getAll(pagination);
   }
 
   getById(id: string): Promise<Goal | undefined> {

@@ -58,9 +58,9 @@ describe('IndexedDbGoalRepository', () => {
     const allGoals = Array.from({ length: 10 }, (_, i) => createGoal(i + 1));
     for (const g of allGoals) await repo.add(g);
 
-    const page = await repo.getAll(4, 4); // ожидаем 4 цели начиная с 4-й
-    expect(page.length).toBe(4);
-    expect(page[0].id).toBe('4');
-    expect(page[3].id).toBe('7');
+    const page = await repo.getAll({offset: 4, limit: 4}); // ожидаем 4 цели начиная с 4-й
+    expect(page.items.length).toBe(4);
+    expect(page.items[0].id).toBe('4');
+    expect(page.items[3].id).toBe('7');
   });
 });

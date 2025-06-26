@@ -1,8 +1,10 @@
 import {Goal} from '../entities/goal';
+import {PaginationParams} from '../contracts/pagination-params';
+import {PaginationResult} from '../contracts/pagination-result';
 
 
 export interface IGoalRepository {
-  getAll(offset: number, limit: number): Promise<Goal[]>;
+  getAll(pagination: PaginationParams): Promise<PaginationResult<Goal>>;
   getById(id: string): Promise<Goal | undefined>;
   add(goal: Goal): Promise<string>;
   update(goal: Goal): Promise<void>;
