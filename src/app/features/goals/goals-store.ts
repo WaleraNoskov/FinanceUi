@@ -1,4 +1,4 @@
-import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
+import {computed, Inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {Goal} from '../../core/entities/goal';
 import {IGoalService} from '../../core/services/goal.service';
 import {GOAL_SERVICE} from "../../core/services/services.injection-tokens";
@@ -6,7 +6,9 @@ import {PaginationParams} from '../../core/contracts/pagination-params';
 
 @Injectable({providedIn: 'root'})
 export class GoalStore {
-  private readonly service = inject<IGoalService>(GOAL_SERVICE);
+  constructor(@Inject(GOAL_SERVICE) private readonly service: IGoalService) {
+  }
+
 
   private readonly goals = signal<Goal[]>([]);
   private readonly loading = signal(false);
