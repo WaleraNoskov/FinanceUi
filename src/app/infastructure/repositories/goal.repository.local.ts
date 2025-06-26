@@ -7,7 +7,7 @@ import {PaginationResult} from '../../core/contracts/pagination-result';
 import {PaginationParams} from '../../core/contracts/pagination-params';
 
 @Injectable()
-export class LocalGoalRepository implements IGoalRepository {
+export class GoalRepositoryLocal implements IGoalRepository {
 
   constructor(private readonly dbService: IndexedDbService) {
   }

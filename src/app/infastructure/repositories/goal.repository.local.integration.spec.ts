@@ -1,10 +1,10 @@
-import {LocalGoalRepository} from './goal.repository.local';
+import {GoalRepositoryLocal} from './goal.repository.local';
 import {IndexedDbService} from '../indexed-db.service';
 import {Goal} from '../../core/entities/goal';
 import {v4 as uuidv4} from 'uuid';
 
-describe('IndexedDbGoalRepository', () => {
-  let repo: LocalGoalRepository;
+describe('GoalRepositoryLocal', () => {
+  let repo: GoalRepositoryLocal;
   let service: IndexedDbService;
 
   const createGoal = (boardId = 'defaultBoardId'): Goal => {
@@ -25,7 +25,7 @@ describe('IndexedDbGoalRepository', () => {
     await tx.objectStore('goals').clear();
     await tx.done;
 
-    repo = new LocalGoalRepository(service);
+    repo = new GoalRepositoryLocal(service);
   });
 
   it('should add and retrieve a goal by ID', async () => {
@@ -68,5 +68,18 @@ describe('IndexedDbGoalRepository', () => {
     expect(page.items.length).toBe(4);
     expect(page.items[0].id).toBe(allItems.items[4].id);
     expect(page.items[3].id).toBe(allItems.items[7].id);
+  });
+
+  it('should filter by boardId correctly', async () => {
+    Array.from({length: 10}, async (_, i) => {
+      const goal = createGoal(i < 5 ? '1': '2');
+      await repo.add(goal);
+    });
+
+    const itemsWithBoardId1 = await repo.getAll({offset: 0, limit: 10}, '1');
+    const itemsWithBoardId2 = await repo.getAll({offset: 0, limit: 10}, '2');
+
+    expect(itemsWithBoardId1.items.length).toBe(5);
+    expect(itemsWithBoardId2.items.length).toBe(5);
   });
 });
