@@ -1,59 +1,20 @@
-# Untitled
+# 💸 A Smarter Way to Manage Your Money.
+This is not just another budgeting tool. It’s a **next-generation financial planning system** designed for people who want to **clearly connect income and expenses, understand their financial future,** and **grow their financial literacy** — whether managing personal funds, a family budget, or a team’s shared finances.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
+## 🚀 Why This Project?
+- **Real-life financial modeling:** Plan your income and attach expenses directly to each source, just like you do on paper.
+- **Clear remaining balance:** After all payments, see what’s left — for each income stream.
+- **Saving with purpose:** Instantly allocate leftover funds to long-term goals.
+- **Live forecasting:** Every change updates your financial outlook in real time.
+- **Adaptable by design:** Suitable for individuals, families, or small teams managing shared resources.
 
-## Development server
+## 🧠 Who is it for?
+- People who want more than vague spending categories.
+- Families that share and track expenses across multiple incomes.
+- Freelancers and remote workers with irregular income.
+- Anyone seeking **strategic financial awareness**, not just expense tracking.
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🌟 More than a tool — it’s a mindset
+This project is about **clarity, structure, and control**.
+It helps you align your spending with your values and long-term goals.
+No fluff — just **real numbers**, real planning, and **real insights** into your financial future.
