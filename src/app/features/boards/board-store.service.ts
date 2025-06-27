@@ -18,6 +18,8 @@ export class BoardStore {
   readonly isLoading = computed(() => this.loading());
   readonly totalBoardsCount = computed(() => this.totalCount());
   readonly currentPagination = computed(() => this.pagination());
+  private readonly selected = signal<Board | null>(null);
+  readonly selectedBoard = computed(() => this.selected());
 
   async loadBoards(offset = 0, limit = 10): Promise<void> {
     this.pagination.set({offset, limit});
@@ -49,5 +51,9 @@ export class BoardStore {
   async deleteBoard(id: string): Promise<void> {
     await this.service.delete(id);
     return this.refresh();
+  }
+
+  setSelectedBoard(board: Board) {
+    this.selected.set(board);
   }
 }

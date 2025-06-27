@@ -81,4 +81,22 @@ describe('BoardsStore', () => {
 
     expect(mockService.getBoards).toHaveBeenCalledWith({ offset: 5, limit: 10 });
   });
+
+  it('should initially have null selectedBoard', () => {
+    expect(store.selectedBoard()).toBeNull();
+  });
+
+  it('should set and return selectedBoard correctly', () => {
+    const board: Board = { id: '1', title: 'My Board' };
+    store.setSelectedBoard(board);
+    expect(store.selectedBoard()).toEqual(board);
+  });
+
+  it('should update selectedBoard when a different board is set', () => {
+    const board1: Board = { id: '1', title: 'Board 1' };
+    const board2: Board = { id: '1', title: 'Board 2' };
+    store.setSelectedBoard(board1);
+    store.setSelectedBoard(board2);
+    expect(store.selectedBoard()).toEqual(board2);
+  });
 });
