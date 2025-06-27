@@ -16,7 +16,7 @@ interface FinanceDb extends DBSchema {
 
 @Injectable({providedIn: 'root'})
 export class IndexedDbService {
-  private dbPromise: Promise<IDBPDatabase<FinanceDb>>;
+  private readonly dbPromise: Promise<IDBPDatabase<FinanceDb>>;
 
   constructor() {
     this.dbPromise = openDB<FinanceDb>('finance-db', 1, {

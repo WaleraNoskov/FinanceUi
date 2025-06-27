@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Board} from '../../../core/entities/board';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatError, MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
+import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-add-or-edit-board-from',
@@ -10,7 +11,8 @@ import {MatError, MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/ma
     MatFormField,
     MatInput,
     MatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButton
   ],
   template: `
     <div class="form-container">
@@ -24,6 +26,15 @@ import {MatError, MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/ma
             </mat-error>
           }
         </mat-form-field>
+
+        <div class="buttons-footer">
+          <button matButton="filled" type="submit" [disabled]="form.invalid">
+            Save
+          </button>
+          <button matButton="tonal" (click)="cancel()">
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   `,
@@ -50,7 +61,7 @@ export class AddOrEditBoardForm {
   @Output() saved = new EventEmitter<Board>();
   @Output() cancelled = new EventEmitter<void>();
 
-  form: FormGroup = new FormGroup<>({});
+  form: FormGroup = new FormGroup({});
 
   constructor(private fb: FormBuilder) {}
 

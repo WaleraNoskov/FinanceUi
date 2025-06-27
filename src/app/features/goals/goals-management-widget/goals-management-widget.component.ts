@@ -11,7 +11,7 @@ import {Goal} from '../../../core/entities/goal';
 
 @Component({
   standalone: true,
-  selector: 'app-goals',
+  selector: 'app-goals-management-widget',
   imports: [CommonModule, MatIcon, MatFabButton, EditableGoalsList, MatPaginator],
   template: `
     <div class="goal-container">
@@ -33,10 +33,10 @@ import {Goal} from '../../../core/entities/goal';
       (page)="onPageChange($event)">
     </mat-paginator>
   `,
-  styleUrl: './goals-component.scss'
+  styleUrl: './goals-management-widget.component.scss'
 })
 
-export class GoalsComponent {
+export class GoalsManagementWidget {
   pageIndex = computed(() => this.store.currentPagination().offset / this.store.currentPagination().limit);
   pageSize = computed(() => this.store.currentPagination().limit);
 
@@ -56,17 +56,17 @@ export class GoalsComponent {
     this.store.loadGoals(offset, event.pageSize);
   }
 
-  openAddDialog() {
-    this.addOrEditGoalDialogService.open().subscribe(goal => {
+  async openAddDialog() {
+    this.addOrEditGoalDialogService.open().subscribe(async goal => {
       if (goal)
-        this.store.addGoal(goal);
+        await this.store.addGoal(goal);
     })
   }
 
-  onUpdateEmitted(goal: Goal) {
-    this.addOrEditGoalDialogService.open(goal).subscribe(goal => {
+  async onUpdateEmitted(goal: Goal) {
+    this.addOrEditGoalDialogService.open(goal).subscribe(async goal => {
       if (goal)
-        this.store.updateGoal(goal);
+        await this.store.updateGoal(goal);
     });
   }
 

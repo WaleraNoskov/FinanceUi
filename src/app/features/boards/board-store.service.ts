@@ -36,6 +36,7 @@ export class BoardStore {
   }
 
   async addBoard(board: Board): Promise<void> {
+    console.log(board)
     await this.service.create(board);
     return this.refresh();
   }
