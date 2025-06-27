@@ -30,23 +30,23 @@ export class GoalStore {
     this.loading.set(false);
   }
 
-  async refresh(): Promise<void> {
+  async refreshGoals(): Promise<void> {
     const {offset, limit} = this.pagination();
     await this.loadGoals(offset, limit);
   }
 
   async addGoal(goal: Goal): Promise<void> {
     await this.service.create(goal);
-    return this.refresh();
+    return this.refreshGoals();
   }
 
   async updateGoal(goal: Goal): Promise<void> {
     await this.service.update(goal);
-    return this.refresh();
+    return this.refreshGoals();
   }
 
   async deleteGoal(id: string): Promise<void> {
     await this.service.delete(id);
-    return this.refresh();
+    return this.refreshGoals();
   }
 }

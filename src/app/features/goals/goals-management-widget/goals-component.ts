@@ -1,17 +1,18 @@
-import {Component, computed, effect} from '@angular/core';
+import {Component, computed, effect} from "@angular/core";
 import {CommonModule} from '@angular/common';
-import {GoalStore} from './goals-store';
-import {MatFabButton} from "@angular/material/button";
-import {MatIcon} from "@angular/material/icon";
-import {GoalsList} from './goals-list/goals-list';
-import {AddOrEditGoalDialogService} from './add-or-edit-goal/add-or-edit-goal-dialog-service';
-import {Goal} from '../../core/entities/goal';
+import {MatIcon} from '@angular/material/icon';
+import {MatFabButton} from '@angular/material/button';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {EditableGoalsList} from '../editable-goals-list/editable-goals-list';
+import {GoalStore} from '../goals-store';
+import {AddOrEditGoalDialogService} from '../add-or-edit-goal-dialog-service';
+import {Goal} from '../../../core/entities/goal';
+
 
 @Component({
   standalone: true,
   selector: 'app-goals',
-  imports: [CommonModule, MatIcon, MatFabButton, GoalsList, MatPaginator],
+  imports: [CommonModule, MatIcon, MatFabButton, EditableGoalsList, MatPaginator],
   template: `
     <div class="goal-container">
       <div>
@@ -19,7 +20,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
           <mat-icon>add</mat-icon>
         </button>
 
-        <app-goals-list [goalList]="store.goalList()" (deleted)="delete($event)"
+        <app-editable-goals-list [goalList]="store.goalList()" (deleted)="delete($event)"
                         (needToUpdate)="onUpdateEmitted($event)"/>
       </div>
     </div>

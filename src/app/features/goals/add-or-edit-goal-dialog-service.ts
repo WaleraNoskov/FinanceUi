@@ -1,15 +1,15 @@
 import {MatDialog} from '@angular/material/dialog';
 import {Injectable} from '@angular/core';
-import {Goal} from '../../../core/entities/goal';
+import {Goal} from '../../core/entities/goal';
 import {Observable, Subject} from 'rxjs';
-import {AddOrEditGoal} from './add-or-edit-goal';
+import {AddOrEditGoalForm} from './add-or-edit-goal-form/add-or-edit-goal-form';
 
 @Injectable({ providedIn: 'root' })
 export class AddOrEditGoalDialogService {
   constructor(private dialog: MatDialog) {}
 
   open(goal?: Goal): Observable<Goal | undefined> {
-    const ref = this.dialog.open(AddOrEditGoal, {
+    const ref = this.dialog.open(AddOrEditGoalForm, {
       width: '500px',
       disableClose: true,
     });

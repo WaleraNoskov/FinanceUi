@@ -79,7 +79,7 @@ describe('GoalStore', () => {
     mockService.getGoals.and.resolveTo({ items: goals, total: 2 });
 
     await store.loadGoals(5, 10);
-    await store.refresh();
+    await store.refreshGoals();
 
     expect(mockService.getGoals).toHaveBeenCalledWith({ offset: 5, limit: 10 }, '');
   });

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddOrEditGoal } from './add-or-edit-goal';
+import { AddOrEditGoalForm } from './add-or-edit-goal-form';
 
 describe('AddOrEditGoal', () => {
-  let component: AddOrEditGoal;
-  let fixture: ComponentFixture<AddOrEditGoal>;
+  let component: AddOrEditGoalForm;
+  let fixture: ComponentFixture<AddOrEditGoalForm>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddOrEditGoal]
+      imports: [AddOrEditGoalForm]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddOrEditGoal);
+    fixture = TestBed.createComponent(AddOrEditGoalForm);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

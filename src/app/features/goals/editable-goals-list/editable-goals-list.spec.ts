@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GoalsList } from './goals-list';
+import { EditableGoalsList } from './editable-goals-list';
 
 describe('GoalsList', () => {
-  let component: GoalsList;
-  let fixture: ComponentFixture<GoalsList>;
+  let component: EditableGoalsList;
+  let fixture: ComponentFixture<EditableGoalsList>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoalsList]
+      imports: [EditableGoalsList]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GoalsList);
+    fixture = TestBed.createComponent(EditableGoalsList);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
