@@ -1,6 +1,22 @@
-<app-select-board-widget/>
-<div style="display: flex; flex-direction: row">
-  <app-goals-management-widget style="width: 500px; max-height: 500px; display: inline-block"/>
-  <app-boards-management-widget style="width: 500px; max-height: 500px; display: inline-block"/>
-</div>
+<!--<app-select-board-widget/>-->
+<!--<div style="display: flex; flex-direction: row">-->
+<!--  <app-goals-management-widget style="width: 500px; max-height: 500px; display: inline-block"/>-->
+<!--  <app-boards-management-widget style="width: 500px; max-height: 500px; display: inline-block"/>-->
+<!--</div>-->
+
 <router-outlet/>
+
+<mat-toolbar color="primary" class="bottom-nav" role="navigation">
+<!--  <button mat-icon-button (click)="navigate('home')">-->
+<!--    <mat-icon>home</mat-icon>-->
+<!--  </button>-->
+  <button mat-icon-button [routerLink]="['/boards']">
+    <mat-icon>dashboard</mat-icon>
+  </button>
+  <button mat-icon-button [routerLink]="['/goals']">
+    <mat-icon>bookmark_check</mat-icon>
+  </button>
+  <button mat-icon-button >
+    <mat-icon>settings</mat-icon>
+  </button>
+</mat-toolbar>

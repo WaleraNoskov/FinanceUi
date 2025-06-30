@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {GoalsManagementWidget} from './features/goals/goals-management-widget/goals-management-widget.component';
-import {BoardsManagementWidget} from './features/boards/boards-management-widget/boards-management-widget';
-import {SelectBoardWidget} from './features/boards/select-board-widget/select-board-widget';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {MatIconButton} from '@angular/material/button';
+import {MatToolbar} from '@angular/material/toolbar';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, GoalsManagementWidget, GoalsManagementWidget, BoardsManagementWidget, SelectBoardWidget],
+  imports: [RouterOutlet, MatIconButton, MatIcon, MatToolbar, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected title = 'untitled';
+
 }
