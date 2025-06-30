@@ -13,7 +13,7 @@ import {
 import {MatButton} from '@angular/material/button';
 
 @Component({
-  selector: 'app-add-or-edit-goal',
+  selector: 'app-add-or-edit-goal-form',
   imports: [
     MatFormField,
     ReactiveFormsModule,
@@ -90,7 +90,7 @@ import {MatButton} from '@angular/material/button';
     }
   `
 })
-export class AddOrEditGoal {
+export class AddOrEditGoalForm {
   @Input() goal: Goal | null = null;
   @Output() saved = new EventEmitter<Goal>();
   @Output() cancelled = new EventEmitter<void>();

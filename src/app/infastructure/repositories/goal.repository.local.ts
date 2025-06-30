@@ -7,31 +7,36 @@ import {PaginationResult} from '../../core/contracts/pagination-result';
 import {PaginationParams} from '../../core/contracts/pagination-params';
 
 @Injectable()
-export class LocalGoalRepository implements IGoalRepository {
+export class GoalRepositoryLocal implements IGoalRepository {
 
   constructor(private readonly dbService: IndexedDbService) {
   }
 
-  async getAll(pagination: PaginationParams): Promise<PaginationResult<Goal>> {
+  async getAll(pagination: PaginationParams, boardId?: string | null): Promise<PaginationResult<Goal>> {
     const db = await this.dbService.db;
     const store = db.transaction('goals', 'readonly').objectStore('goals');
-    const result: PaginationResult<Goal> = {items: [], total: 0};
-
-    result.total = await store.count();
+    const result: PaginationResult<Goal> = { items: [], total: 0 };
 
     let cursor = await store.openCursor();
     let skipped = 0;
     let taken = 0;
+    let matched = 0;
 
-    while (cursor && taken < pagination.limit) {
-      if (skipped < pagination.offset) skipped++;
-      else {
-        result.items.push(cursor.value);
-        taken++;
+    while (cursor) {
+      const goal: Goal = cursor.value;
+      if (boardId != null ? goal.boardId === boardId : true) {
+        matched++;
+        if (skipped < pagination.offset) {
+          skipped++;
+        } else if (taken < pagination.limit) {
+          result.items.push(goal);
+          taken++;
+        }
       }
       cursor = await cursor.continue();
     }
 
+    result.total = matched;
     return result;
   }
 

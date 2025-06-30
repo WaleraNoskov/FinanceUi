@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddOrEditGoal } from './add-or-edit-goal';
+import { SelectBoardList } from './select-board-list';
 
-describe('AddOrEditGoal', () => {
-  let component: AddOrEditGoal;
-  let fixture: ComponentFixture<AddOrEditGoal>;
+describe('SelectBoardList', () => {
+  let component: SelectBoardList;
+  let fixture: ComponentFixture<SelectBoardList>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddOrEditGoal]
+      imports: [SelectBoardList]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddOrEditGoal);
+    fixture = TestBed.createComponent(SelectBoardList);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

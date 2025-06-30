@@ -5,6 +5,8 @@ import {Goal} from '../../core/entities/goal';
 import {GOAL_REPOSITORY} from '../../core/repositories/repositories.injection-tokens';
 import {PaginationResult} from '../../core/contracts/pagination-result';
 
+const defaultBoardId = 'defaultBoardId';
+
 describe('GoalService', () => {
   let service: GoalService;
   let mockRepository: jasmine.SpyObj<IGoalRepository>;
@@ -27,18 +29,32 @@ describe('GoalService', () => {
   it('should fetch goals with pagination', async () => {
     const mockGoals: PaginationResult<Goal> = {
       total: 1,
-      items: [{id: '1', title: 'Test', targetAmount: 100, currentAmount: 0, deadline: new Date()}]
+      items: [{
+        id: '1',
+        title: 'Test',
+        targetAmount: 100,
+        currentAmount: 0,
+        deadline: new Date(),
+        boardId: defaultBoardId
+      }]
     };
     mockRepository.getAll.and.resolveTo(mockGoals);
 
-    const result = await service.getGoals({offset: 0, limit: 10});
+    const result = await service.getGoals({offset: 0, limit: 10}, defaultBoardId);
 
-    expect(mockRepository.getAll).toHaveBeenCalledWith({offset: 0, limit: 10});
+    expect(mockRepository.getAll).toHaveBeenCalledWith({offset: 0, limit: 10}, defaultBoardId);
     expect(result).toEqual(mockGoals);
   });
 
   it('should fetch goal by id', async () => {
-    const mockGoal: Goal = {id: '1', title: 'Test', targetAmount: 100, currentAmount: 0, deadline: new Date()};
+    const mockGoal: Goal = {
+      id: '1',
+      title: 'Test',
+      targetAmount: 100,
+      currentAmount: 0,
+      deadline: new Date(),
+      boardId: defaultBoardId
+    };
     mockRepository.getById.and.resolveTo(mockGoal);
 
     const result = await service.getById('1');
@@ -48,7 +64,14 @@ describe('GoalService', () => {
   });
 
   it('should create a goal', async () => {
-    const newGoal: Goal = {id: '2', title: 'New', targetAmount: 200, currentAmount: 0, deadline: new Date()};
+    const newGoal: Goal = {
+      id: '2',
+      title: 'New',
+      targetAmount: 200,
+      currentAmount: 0,
+      deadline: new Date(),
+      boardId: defaultBoardId
+    };
     mockRepository.add.and.resolveTo();
 
     await service.create(newGoal);
@@ -57,7 +80,14 @@ describe('GoalService', () => {
   });
 
   it('should update a goal', async () => {
-    const updatedGoal: Goal = {id: '3', title: 'Updated', targetAmount: 300, currentAmount: 100, deadline: new Date()};
+    const updatedGoal: Goal = {
+      id: '3',
+      title: 'Updated',
+      targetAmount: 300,
+      currentAmount: 100,
+      deadline: new Date(),
+      boardId: defaultBoardId
+    };
     mockRepository.update.and.resolveTo();
 
     await service.update(updatedGoal);

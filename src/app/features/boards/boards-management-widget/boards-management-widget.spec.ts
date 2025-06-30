@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GoalsList } from './goals-list';
+import { BoardsManagementWidget } from './boards-management-widget';
 
-describe('GoalsList', () => {
-  let component: GoalsList;
-  let fixture: ComponentFixture<GoalsList>;
+describe('BoardsManagementWidget', () => {
+  let component: BoardsManagementWidget;
+  let fixture: ComponentFixture<BoardsManagementWidget>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoalsList]
+      imports: [BoardsManagementWidget]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GoalsList);
+    fixture = TestBed.createComponent(BoardsManagementWidget);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

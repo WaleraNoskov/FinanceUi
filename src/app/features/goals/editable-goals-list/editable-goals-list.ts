@@ -5,7 +5,7 @@ import {MatIcon} from '@angular/material/icon';
 import {Goal} from '../../../core/entities/goal';
 
 @Component({
-  selector: 'app-goals-list',
+  selector: 'app-editable-goals-list',
   imports: [
     MatIcon,
     MatIconButton,
@@ -37,7 +37,7 @@ import {Goal} from '../../../core/entities/goal';
   `,
   styles: ``
 })
-export class GoalsList {
+export class EditableGoalsList {
   @Input() goalList: Goal[] = [];
   @Output() deleted: EventEmitter<Goal> = new EventEmitter();
   @Output() needToUpdate: EventEmitter<Goal> = new EventEmitter();

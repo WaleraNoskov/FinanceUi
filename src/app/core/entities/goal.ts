@@ -4,4 +4,6 @@ export interface Goal {
   targetAmount: number;
   currentAmount: number;
   deadline: Date;
+
+  boardId: string;
 }
