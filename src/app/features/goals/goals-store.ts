@@ -10,18 +10,19 @@ export class GoalStore {
   }
 
   private readonly goals = signal<Goal[]>([]);
-  readonly getGoals = computed(() => this.goals());
+  public readonly getGoals = computed(() => this.goals());
 
   private readonly isLoading = signal(false);
-  readonly getIsLoading = computed(() => this.isLoading());
+  public readonly getIsLoading = computed(() => this.isLoading());
 
   private readonly totalCount = signal(0);
-  readonly getTotalCount = computed(() => this.totalCount());
+  public readonly getTotalCount = computed(() => this.totalCount());
 
   private readonly pagination: WritableSignal<PaginationParams> = signal({offset: 0, limit: 10});
-  readonly getCurrentPagination = computed(() => this.pagination());
+  public readonly getPagination = computed(() => this.pagination());
 
   private readonly currentBoardId: WritableSignal<string | null> = signal('');
+  public readonly getCurrentBoardId = computed(() => this.currentBoardId());
 
   async loadGoals(offset = 0, limit = 10, boardId: string | null = null): Promise<void> {
     this.pagination.set({offset, limit});
@@ -37,7 +38,6 @@ export class GoalStore {
 
   async refreshGoals(): Promise<void> {
     const {offset, limit} = this.pagination();
-    console.log('aboba')
     await this.loadGoals(offset, limit, this.currentBoardId());
   }
 

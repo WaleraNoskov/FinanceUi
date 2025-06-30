@@ -20,14 +20,14 @@ import {SelectBoardList} from '../select-board-list/select-board-list';
   template: `
     <div class="board-container">
       <div>
-        <app-select-board-list [boards]="store.boardList()" (selected)="store.setSelectedBoard($event)"
-                               [currentBoard]="store.selectedBoard()"/>
+        <app-select-board-list [boards]="store.getBoards()" (selected)="store.setSelectedBoard($event)"
+                               [currentBoard]="store.getSelected()"/>
 
         <button class="fab-button" matFab (click)="openAddDialog()">
           <mat-icon>add</mat-icon>
         </button>
 
-        <app-editable-boards-list [boardList]="store.boardList()" (deleted)="delete($event)"
+        <app-editable-boards-list [boardList]="store.getBoards()" (deleted)="delete($event)"
                                   (selected)="store.setSelectedBoard($event)"
                                   (needToUpdate)="onUpdateEmitted($event)"/>
       </div>
@@ -36,7 +36,7 @@ import {SelectBoardList} from '../select-board-list/select-board-list';
     <mat-paginator
       [pageSize]="pageSize()"
       [pageIndex]="pageIndex()"
-      [length]="store.totalBoardsCount()"
+      [length]="store.getBoardsCount()"
       [pageSizeOptions]="[5, 10, 20]"
       (page)="onPageChange($event)">
     </mat-paginator>
@@ -53,8 +53,8 @@ import {SelectBoardList} from '../select-board-list/select-board-list';
   `
 })
 export class BoardsManagementWidget {
-  pageIndex = computed(() => this.store.currentPagination().offset / this.store.currentPagination().limit);
-  pageSize = computed(() => this.store.currentPagination().limit);
+  pageIndex = computed(() => this.store.getPagination().offset / this.store.getPagination().limit);
+  pageSize = computed(() => this.store.getPagination().limit);
 
   constructor(
     public store: BoardStore,

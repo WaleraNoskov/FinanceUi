@@ -38,8 +38,8 @@ import {BoardStore} from '../../boards/board-store';
 })
 
 export class GoalsManagementWidget {
-  pageIndex = computed(() => this.store.getCurrentPagination().offset / this.store.getCurrentPagination().limit);
-  pageSize = computed(() => this.store.getCurrentPagination().limit);
+  pageIndex = computed(() => this.store.getPagination().offset / this.store.getPagination().limit);
+  pageSize = computed(() => this.store.getPagination().limit);
 
   constructor(
     public readonly store: GoalStore,
@@ -51,6 +51,12 @@ export class GoalsManagementWidget {
 
   private registerEffects() {
     effect(() => this.store.loadGoals());
+    effect(async () => {
+      const board = this.boardStore.getSelected();
+      if(board){
+        await this.store.loadGoals(0, 10,  board.id);
+      }
+    })
   }
 
   async onPageChange(event: PageEvent) {
@@ -61,6 +67,7 @@ export class GoalsManagementWidget {
   async openAddDialog() {
     this.addOrEditGoalDialogService.open().subscribe(async goal => {
       if(goal) {
+        goal.boardId = this.store.getCurrentBoardId() ?? '';
         await this.store.addGoal(goal);
       }
     })
@@ -68,8 +75,10 @@ export class GoalsManagementWidget {
 
   async onUpdateEmitted(goal: Goal) {
     this.addOrEditGoalDialogService.open(goal).subscribe(async goal => {
-      if (goal)
+      if (goal) {
+        goal.boardId = this.store.getCurrentBoardId() ?? '';
         await this.store.updateGoal(goal);
+      }
     });
   }
 

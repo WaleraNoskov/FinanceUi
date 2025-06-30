@@ -10,26 +10,32 @@ export class BoardStore {
   }
 
   private readonly boards = signal<Board[]>([]);
-  private readonly loading = signal(false);
-  private readonly totalCount = signal(0)
-  private readonly pagination: WritableSignal<PaginationParams> = signal({offset: 0, limit: 10});
-  private readonly selected = signal<Board | null>(null);
+  readonly getBoards = computed(() => this.boards());
 
-  readonly boardList = computed(() => this.boards());
-  readonly isLoading = computed(() => this.loading());
-  readonly totalBoardsCount = computed(() => this.totalCount());
-  readonly currentPagination = computed(() => this.pagination());
-  readonly selectedBoard = computed(() => this.selected());
+  private readonly isLoading = signal(false);
+  readonly getIsLoading = computed(() => this.isLoading());
+
+  private readonly totalCount = signal(0);
+  readonly getBoardsCount = computed(() => this.totalCount());
+
+  private readonly pagination: WritableSignal<PaginationParams> = signal({offset: 0, limit: 10});
+  readonly getPagination = computed(() => this.pagination());
+
+  private readonly selected = signal<Board | null>(null);
+  readonly getSelected = computed(() => this.selected());
 
   async loadBoards(offset = 0, limit = 10): Promise<void> {
     this.pagination.set({offset, limit});
-    this.loading.set(true);
+    this.isLoading.set(true);
 
-    const boards = await this.service.getBoards({offset:offset, limit: limit});
+    const boards = await this.service.getBoards({offset: offset, limit: limit});
     this.boards.set(boards.items);
     this.totalCount.set(boards.total);
 
-    this.loading.set(false);
+    if(this.selected() == null && this.boards().length > 0)
+      this.selected.set(this.boards()[0])
+
+    this.isLoading.set(false);
   }
 
   async refresh(): Promise<void> {
@@ -54,7 +60,8 @@ export class BoardStore {
   }
 
   setSelectedBoard(board: Board) {
+    if (this.getSelected()?.id == board.id)
+      return;
     this.selected.set(board);
-    console.log(this.selectedBoard())
   }
 }

@@ -23,8 +23,8 @@ describe('BoardsStore', () => {
 
     await store.loadBoards();
 
-    expect(store.boardList()).toEqual(boards);
-    expect(store.totalBoardsCount()).toBe(1);
+    expect(store.getBoards()).toEqual(boards);
+    expect(store.getBoardsCount()).toBe(1);
   });
 
   it('should add board and refresh list', async () => {
@@ -83,13 +83,13 @@ describe('BoardsStore', () => {
   });
 
   it('should initially have null selectedBoard', () => {
-    expect(store.selectedBoard()).toBeNull();
+    expect(store.getSelected()).toBeNull();
   });
 
   it('should set and return selectedBoard correctly', () => {
     const board: Board = { id: '1', title: 'My Board' };
     store.setSelectedBoard(board);
-    expect(store.selectedBoard()).toEqual(board);
+    expect(store.getSelected()).toEqual(board);
   });
 
   it('should update selectedBoard when a different board is set', () => {
@@ -97,6 +97,6 @@ describe('BoardsStore', () => {
     const board2: Board = { id: '1', title: 'Board 2' };
     store.setSelectedBoard(board1);
     store.setSelectedBoard(board2);
-    expect(store.selectedBoard()).toEqual(board2);
+    expect(store.getSelected()).toEqual(board2);
   });
 });
