@@ -55,6 +55,8 @@ export class BoardStore {
   async deleteBoard(id: string): Promise<void> {
     await this.service.delete(id);
 
+    this.selected.set(null);
+
     const {offset, limit} = this.pagination();
     await this.loadBoards(offset, limit);
   }
