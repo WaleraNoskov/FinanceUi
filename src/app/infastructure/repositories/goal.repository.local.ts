@@ -12,7 +12,7 @@ export class GoalRepositoryLocal implements IGoalRepository {
   constructor(private readonly dbService: IndexedDbService) {
   }
 
-  async getAll(pagination: PaginationParams, boardId: string): Promise<PaginationResult<Goal>> {
+  async getAll(pagination: PaginationParams, boardId?: string | null): Promise<PaginationResult<Goal>> {
     const db = await this.dbService.db;
     const store = db.transaction('goals', 'readonly').objectStore('goals');
     const result: PaginationResult<Goal> = { items: [], total: 0 };
@@ -24,7 +24,7 @@ export class GoalRepositoryLocal implements IGoalRepository {
 
     while (cursor) {
       const goal: Goal = cursor.value;
-      if (goal.boardId === boardId) {
+      if (boardId != null ? goal.boardId === boardId : true) {
         matched++;
         if (skipped < pagination.offset) {
           skipped++;

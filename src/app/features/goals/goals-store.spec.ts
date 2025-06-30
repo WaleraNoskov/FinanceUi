@@ -25,8 +25,8 @@ describe('GoalStore', () => {
 
     await store.loadGoals();
 
-    expect(store.goalList()).toEqual(goals);
-    expect(store.totalGoalsCount()).toBe(1);
+    expect(store.getGoals()).toEqual(goals);
+    expect(store.getTotalCount()).toBe(1);
   });
 
   it('should add goal and refresh list', async () => {

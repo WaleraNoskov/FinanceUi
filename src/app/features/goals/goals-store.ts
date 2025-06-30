@@ -10,29 +10,35 @@ export class GoalStore {
   }
 
   private readonly goals = signal<Goal[]>([]);
-  private readonly loading = signal(false);
-  private readonly totalCount = signal(0)
+  readonly getGoals = computed(() => this.goals());
+
+  private readonly isLoading = signal(false);
+  readonly getIsLoading = computed(() => this.isLoading());
+
+  private readonly totalCount = signal(0);
+  readonly getTotalCount = computed(() => this.totalCount());
+
   private readonly pagination: WritableSignal<PaginationParams> = signal({offset: 0, limit: 10});
+  readonly getCurrentPagination = computed(() => this.pagination());
 
-  readonly goalList = computed(() => this.goals());
-  readonly isLoading = computed(() => this.loading());
-  readonly totalGoalsCount = computed(() => this.totalCount());
-  readonly currentPagination = computed(() => this.pagination());
+  private readonly currentBoardId: WritableSignal<string | null> = signal('');
 
-  async loadGoals(offset = 0, limit = 10): Promise<void> {
+  async loadGoals(offset = 0, limit = 10, boardId: string | null = null): Promise<void> {
     this.pagination.set({offset, limit});
-    this.loading.set(true);
+    this.isLoading.set(true);
+    this.currentBoardId.set(boardId);
 
-    const goals = await this.service.getGoals({offset:offset, limit: limit}, '');
+    const goals = await this.service.getGoals({offset:offset, limit: limit}, boardId);
     this.goals.set(goals.items);
     this.totalCount.set(goals.total);
 
-    this.loading.set(false);
+    this.isLoading.set(false);
   }
 
   async refreshGoals(): Promise<void> {
     const {offset, limit} = this.pagination();
-    await this.loadGoals(offset, limit);
+    console.log('aboba')
+    await this.loadGoals(offset, limit, this.currentBoardId());
   }
 
   async addGoal(goal: Goal): Promise<void> {

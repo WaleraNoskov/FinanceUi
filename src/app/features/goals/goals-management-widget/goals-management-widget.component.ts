@@ -7,6 +7,7 @@ import {EditableGoalsList} from '../editable-goals-list/editable-goals-list';
 import {GoalStore} from '../goals-store';
 import {AddOrEditGoalDialogService} from '../add-or-edit-goal-dialog-service';
 import {Goal} from '../../../core/entities/goal';
+import {BoardStore} from '../../boards/board-store';
 
 
 @Component({
@@ -20,15 +21,15 @@ import {Goal} from '../../../core/entities/goal';
           <mat-icon>add</mat-icon>
         </button>
 
-        <app-editable-goals-list [goalList]="store.goalList()" (deleted)="delete($event)"
-                        (needToUpdate)="onUpdateEmitted($event)"/>
+        <app-editable-goals-list [goalList]="store.getGoals()" (deleted)="delete($event)"
+                                 (needToUpdate)="onUpdateEmitted($event)"/>
       </div>
     </div>
 
     <mat-paginator
       [pageSize]="pageSize()"
       [pageIndex]="pageIndex()"
-      [length]="store.totalGoalsCount()"
+      [length]="store.getTotalCount()"
       [pageSizeOptions]="[5, 10, 20]"
       (page)="onPageChange($event)">
     </mat-paginator>
@@ -37,11 +38,12 @@ import {Goal} from '../../../core/entities/goal';
 })
 
 export class GoalsManagementWidget {
-  pageIndex = computed(() => this.store.currentPagination().offset / this.store.currentPagination().limit);
-  pageSize = computed(() => this.store.currentPagination().limit);
+  pageIndex = computed(() => this.store.getCurrentPagination().offset / this.store.getCurrentPagination().limit);
+  pageSize = computed(() => this.store.getCurrentPagination().limit);
 
   constructor(
-    public store: GoalStore,
+    public readonly store: GoalStore,
+    private readonly boardStore: BoardStore,
     private readonly addOrEditGoalDialogService: AddOrEditGoalDialogService
   ) {
     this.registerEffects()
@@ -51,15 +53,16 @@ export class GoalsManagementWidget {
     effect(() => this.store.loadGoals());
   }
 
-  onPageChange(event: PageEvent) {
+  async onPageChange(event: PageEvent) {
     const offset = event.pageIndex * event.pageSize;
-    this.store.loadGoals(offset, event.pageSize);
+    await this.store.loadGoals(offset, event.pageSize);
   }
 
   async openAddDialog() {
     this.addOrEditGoalDialogService.open().subscribe(async goal => {
-      if (goal)
+      if(goal) {
         await this.store.addGoal(goal);
+      }
     })
   }
 

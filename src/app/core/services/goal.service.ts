@@ -3,7 +3,7 @@ import {PaginationParams} from '../contracts/pagination-params';
 import {PaginationResult} from '../contracts/pagination-result';
 
 export interface IGoalService {
-  getGoals(pagination: PaginationParams, boardId: string): Promise<PaginationResult<Goal>>;
+  getGoals(pagination: PaginationParams, boardId?: string | null): Promise<PaginationResult<Goal>>;
 
   getById(id: string): Promise<Goal | undefined>;
 

@@ -12,7 +12,7 @@ export class GoalService implements IGoalService {
   constructor(@Inject(GOAL_REPOSITORY) private readonly goalRepository: IGoalRepository) {
   }
 
-  async getGoals(pagination: PaginationParams, boardId: string): Promise<PaginationResult<Goal>> {
+  async getGoals(pagination: PaginationParams, boardId?: string | null): Promise<PaginationResult<Goal>> {
     return await this.goalRepository.getAll(pagination, boardId);
   }
 

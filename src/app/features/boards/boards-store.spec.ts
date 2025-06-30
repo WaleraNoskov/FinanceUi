@@ -1,4 +1,4 @@
-import {BoardStore} from './board-store.service';
+import {BoardStore} from './board-store';
 import {IBoardService} from '../../core/services/board.service';
 import {Board} from '../../core/entities/board';
 

@@ -1,5 +1,5 @@
 import {Component, computed, effect} from '@angular/core';
-import {BoardStore} from '../board-store.service';
+import {BoardStore} from '../board-store';
 import {AddOrEditBoardDialogService} from '../add-or-edit-board-service';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Board} from '../../../core/entities/board';
