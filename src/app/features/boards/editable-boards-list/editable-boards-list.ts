@@ -22,6 +22,9 @@ import {MatIcon} from '@angular/material/icon';
             <span matListItemTitle>{{ board.title }}</span>
 <!--            <span matListItemLine>{{ board.currentAmount }} of {{ board.targetAmount }}</span>-->
             <div matListItemMeta>
+              <button matIconButton aria-label="Select board" (click)="setCurrent(board)">
+                <mat-icon>check</mat-icon>
+              </button>
               <button matIconButton aria-label="Edit board" (click)="update(board)">
                 <mat-icon>edit</mat-icon>
               </button>
@@ -40,6 +43,7 @@ export class EditableBoardsList {
   @Input() boardList: Board[] = [];
   @Output() deleted: EventEmitter<Board> = new EventEmitter();
   @Output() needToUpdate: EventEmitter<Board> = new EventEmitter();
+  @Output() selected: EventEmitter<Board> = new EventEmitter();
 
   update(board: Board) {
     this.needToUpdate.emit(board);
@@ -47,5 +51,9 @@ export class EditableBoardsList {
 
   delete(board: Board) {
     this.deleted.emit(board);
+  }
+
+  setCurrent(board: Board) {
+    this.selected.emit(board);
   }
 }

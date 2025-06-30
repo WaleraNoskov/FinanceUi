@@ -3,9 +3,10 @@ import {BoardStore} from '../board-store.service';
 import {AddOrEditBoardDialogService} from '../add-or-edit-board-service';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Board} from '../../../core/entities/board';
-import {EditableBoardsList} from '../../boards/editable-boards-list/editable-boards-list';
+import {EditableBoardsList} from '../editable-boards-list/editable-boards-list';
 import {MatFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
+import {SelectBoardList} from '../select-board-list/select-board-list';
 
 @Component({
   selector: 'app-boards-management-widget',
@@ -13,17 +14,22 @@ import {MatIcon} from '@angular/material/icon';
     EditableBoardsList,
     MatFabButton,
     MatIcon,
-    MatPaginator
+    MatPaginator,
+    SelectBoardList
   ],
   template: `
     <div class="board-container">
       <div>
+        <app-select-board-list [boards]="store.boardList()" (selected)="store.setSelectedBoard($event)"
+                               [currentBoard]="store.selectedBoard()"/>
+
         <button class="fab-button" matFab (click)="openAddDialog()">
           <mat-icon>add</mat-icon>
         </button>
 
         <app-editable-boards-list [boardList]="store.boardList()" (deleted)="delete($event)"
-                                 (needToUpdate)="onUpdateEmitted($event)"/>
+                                  (selected)="store.setSelectedBoard($event)"
+                                  (needToUpdate)="onUpdateEmitted($event)"/>
       </div>
     </div>
 

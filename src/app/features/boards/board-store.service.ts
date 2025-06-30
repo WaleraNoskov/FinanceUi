@@ -13,12 +13,12 @@ export class BoardStore {
   private readonly loading = signal(false);
   private readonly totalCount = signal(0)
   private readonly pagination: WritableSignal<PaginationParams> = signal({offset: 0, limit: 10});
+  private readonly selected = signal<Board | null>(null);
 
   readonly boardList = computed(() => this.boards());
   readonly isLoading = computed(() => this.loading());
   readonly totalBoardsCount = computed(() => this.totalCount());
   readonly currentPagination = computed(() => this.pagination());
-  private readonly selected = signal<Board | null>(null);
   readonly selectedBoard = computed(() => this.selected());
 
   async loadBoards(offset = 0, limit = 10): Promise<void> {
@@ -55,5 +55,6 @@ export class BoardStore {
 
   setSelectedBoard(board: Board) {
     this.selected.set(board);
+    console.log(this.selectedBoard())
   }
 }
