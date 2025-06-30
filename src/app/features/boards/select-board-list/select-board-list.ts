@@ -14,7 +14,7 @@ import {Board} from '../../../core/entities/board';
   template: `
     <mat-form-field>
       <mat-label>Current board</mat-label>
-      <mat-select [(value)]="currentBoard">
+      <mat-select>
         @for (board of boards; track board) {
           <mat-option [value]="board" (click)="selected.emit(board)">{{board.title}}</mat-option>
         }

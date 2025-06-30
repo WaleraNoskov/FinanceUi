@@ -38,25 +38,25 @@ export class BoardStore {
     this.isLoading.set(false);
   }
 
-  async refresh(): Promise<void> {
+  async addBoard(board: Board): Promise<void> {
+    await this.service.create(board);
+
     const {offset, limit} = this.pagination();
     await this.loadBoards(offset, limit);
   }
 
-  async addBoard(board: Board): Promise<void> {
-    console.log(board)
-    await this.service.create(board);
-    return this.refresh();
-  }
-
   async updateBoard(board: Board): Promise<void> {
     await this.service.update(board);
-    return this.refresh();
+
+    const {offset, limit} = this.pagination();
+    await this.loadBoards(offset, limit);
   }
 
   async deleteBoard(id: string): Promise<void> {
     await this.service.delete(id);
-    return this.refresh();
+
+    const {offset, limit} = this.pagination();
+    await this.loadBoards(offset, limit);
   }
 
   setSelectedBoard(board: Board) {

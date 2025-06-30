@@ -6,7 +6,6 @@ import {Board} from '../../../core/entities/board';
 import {EditableBoardsList} from '../editable-boards-list/editable-boards-list';
 import {MatFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
-import {SelectBoardList} from '../select-board-list/select-board-list';
 
 @Component({
   selector: 'app-boards-management-widget',
@@ -14,15 +13,11 @@ import {SelectBoardList} from '../select-board-list/select-board-list';
     EditableBoardsList,
     MatFabButton,
     MatIcon,
-    MatPaginator,
-    SelectBoardList
+    MatPaginator
   ],
   template: `
     <div class="board-container">
       <div>
-        <app-select-board-list [boards]="store.getBoards()" (selected)="store.setSelectedBoard($event)"
-                               [currentBoard]="store.getSelected()"/>
-
         <button class="fab-button" matFab (click)="openAddDialog()">
           <mat-icon>add</mat-icon>
         </button>
