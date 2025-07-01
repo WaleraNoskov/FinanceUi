@@ -4,28 +4,27 @@ import {AddOrEditBoardDialogService} from '../add-or-edit-board-service';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Board} from '../../../../core/entities/board';
 import {EditableBoardsList} from '../../components/editable-boards-list/editable-boards-list';
-import {MatFabButton} from '@angular/material/button';
+import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-boards-management-widget',
   imports: [
     EditableBoardsList,
-    MatFabButton,
     MatIcon,
-    MatPaginator
+    MatPaginator,
+    MatButton
   ],
   template: `
     <div class="board-container">
-      <div>
-        <button class="fab-button" matFab (click)="openAddDialog()">
-          <mat-icon>add</mat-icon>
-        </button>
+      <button class="add-button" matButton="tonal" (click)="openAddDialog()">
+        <mat-icon>add</mat-icon>
+        <span>Add</span>
+      </button>
 
-        <app-editable-boards-list [boardList]="store.getBoards()" (deleted)="delete($event)"
-                                  (selected)="store.setSelectedBoard($event)"
-                                  (needToUpdate)="onUpdateEmitted($event)"/>
-      </div>
+      <app-editable-boards-list [boardList]="store.getBoards()" (deleted)="delete($event)"
+                                (selected)="store.setSelectedBoard($event)"
+                                (needToUpdate)="onUpdateEmitted($event)"/>
     </div>
 
     <mat-paginator
@@ -39,12 +38,12 @@ import {MatIcon} from '@angular/material/icon';
   `,
   styles: `
     .board-container {
-      position: relative;
-      height: 100%;
-      max-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+    }
+
+    .add-button {
+      align-self: end;
     }
   `
 })

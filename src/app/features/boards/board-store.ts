@@ -31,7 +31,6 @@ export class BoardStore {
     const boards = await this.service.getBoards({offset: offset, limit: limit});
     this.boards.set(boards.items);
     this.totalCount.set(boards.total);
-    console.log(boards.total)
 
     if(this.selected() == null && this.boards().length > 0)
       this.selected.set(this.boards()[0])

@@ -3,6 +3,7 @@ import {Board} from '../../../../core/entities/board';
 import {MatIconButton} from '@angular/material/button';
 import {MatList, MatListItem, MatListItemMeta, MatListItemTitle} from '@angular/material/list';
 import {MatIcon} from '@angular/material/icon';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-editable-boards-list',
@@ -12,7 +13,10 @@ import {MatIcon} from '@angular/material/icon';
     MatList,
     MatListItem,
     MatListItemMeta,
-    MatListItemTitle
+    MatListItemTitle,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem
   ],
   template: `
     <div>
@@ -20,17 +24,20 @@ import {MatIcon} from '@angular/material/icon';
         @for (board of boardList; track board.id) {
           <mat-list-item>
             <span matListItemTitle>{{ board.title }}</span>
-<!--            <span matListItemLine>{{ board.currentAmount }} of {{ board.targetAmount }}</span>-->
             <div matListItemMeta>
-              <button matIconButton aria-label="Select board" (click)="setCurrent(board)">
-                <mat-icon>check</mat-icon>
+              <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
               </button>
-              <button matIconButton aria-label="Edit board" (click)="update(board)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button matIconButton aria-label="Delete board" (click)="delete(board)">
-                <mat-icon>delete</mat-icon>
-              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="update(board)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="delete(board)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
             </div>
           </mat-list-item>
         }
