@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
-import {MatGridList} from '@angular/material/grid-list';
 import {SelectBoardWidget} from '../../../features/boards/widgets/select-board-widget/select-board-widget';
 
 @Component({
@@ -8,7 +7,6 @@ import {SelectBoardWidget} from '../../../features/boards/widgets/select-board-w
   imports: [
     MatToolbar,
     MatToolbarRow,
-    MatGridList,
     SelectBoardWidget
   ],
   template: `
@@ -29,7 +27,9 @@ import {SelectBoardWidget} from '../../../features/boards/widgets/select-board-w
 
     <div class="content-container">
       <h2>Current Board</h2>
-      <app-select-board-widget/>
+      <div class="boards-container">
+        <app-select-board-widget/>
+      </div>
     </div>
   `,
   styles: `
@@ -43,7 +43,7 @@ import {SelectBoardWidget} from '../../../features/boards/widgets/select-board-w
       gap: 8px;
     }
 
-    .header-title{
+    .header-title {
       font-size: 48px;
     }
 
@@ -52,11 +52,11 @@ import {SelectBoardWidget} from '../../../features/boards/widgets/select-board-w
       text-wrap: auto;
     }
 
-    .content-container{
+    .content-container {
       padding: 0 24px;
     }
 
-    h2{
+    h2 {
       font-weight: 450;
       font-size: 32px;
     }

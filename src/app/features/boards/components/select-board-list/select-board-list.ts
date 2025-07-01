@@ -21,7 +21,11 @@ import {Board} from '../../../../core/entities/board';
       </mat-select>
     </mat-form-field>
   `,
-  styles: ``
+  styles: `
+    mat-form-field {
+      width: 100%;
+    }
+  `
 })
 export class SelectBoardList {
   @Input() boards: Board[] = [];

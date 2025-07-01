@@ -24,6 +24,8 @@ export class BoardRepositoryLocal implements IBoardRepository {
     while (cursor) {
       const board: Board = cursor.value;
 
+      matched++;
+
       if (skipped < pagination.offset) {
         skipped++;
       } else if (taken < pagination.limit) {
