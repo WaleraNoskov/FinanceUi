@@ -17,7 +17,7 @@ import {MatIcon} from '@angular/material/icon';
   ],
   template: `
     <div class="board-container">
-      <button class="add-button" matButton="tonal" (click)="openAddDialog()">
+      <button class="add-button" matButton="outlined" (click)="openAddDialog()">
         <mat-icon>add</mat-icon>
         <span>Add</span>
       </button>
