@@ -1,13 +1,21 @@
-import { Component } from '@angular/core';
+import {Component, computed, signal} from '@angular/core';
 import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
 import {SelectBoardWidget} from '../../../features/boards/widgets/select-board-widget/select-board-widget';
+import {MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {
+  BoardsManagementWidget
+} from '../../../features/boards/widgets/boards-management-widget/boards-management-widget';
 
 @Component({
   selector: 'app-settings-page',
   imports: [
     MatToolbar,
     MatToolbarRow,
-    SelectBoardWidget
+    SelectBoardWidget,
+    MatIcon,
+    MatIconButton,
+    BoardsManagementWidget,
   ],
   template: `
     <div class="header-container">
@@ -26,10 +34,24 @@ import {SelectBoardWidget} from '../../../features/boards/widgets/select-board-w
     </div>
 
     <div class="content-container">
-      <h2>Current Board</h2>
-      <div class="boards-container">
-        <app-select-board-widget/>
+      <div class="boards-header">
+        <h2>Current Board</h2>
+        @if (!getIsEditMode()) {
+          <button matIconButton (click)="openEditMode()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        } @else {
+          <button matIconButton (click)="closeEditMode()">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
       </div>
+
+      @if (!getIsEditMode()) {
+        <app-select-board-widget/>
+      } @else {
+          <app-boards-management-widget [fixedPageSize]="5"/>
+      }
     </div>
   `,
   styles: `
@@ -56,11 +78,30 @@ import {SelectBoardWidget} from '../../../features/boards/widgets/select-board-w
       padding: 0 24px;
     }
 
-    h2 {
+    .boards-header {
+      display: flex;
+      flex-direction: row;
+      margin: 32px 0 12px 0;
+    }
+
+    .boards-header > h2 {
       font-weight: 450;
       font-size: 32px;
+      flex-grow: 1;
+      margin: 0;
     }
   `
 })
+
 export class SettingsPage {
+  private isEditMode = signal<boolean>(false);
+  public getIsEditMode = computed(() => this.isEditMode());
+
+  public openEditMode() {
+    this.isEditMode.set(true);
+  }
+
+  public closeEditMode() {
+    this.isEditMode.set(false);
+  }
 }

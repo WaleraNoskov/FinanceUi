@@ -1,4 +1,4 @@
-import {Component, computed, effect} from '@angular/core';
+import {Component, computed, effect, Input} from '@angular/core';
 import {BoardStore} from '../../board-store';
 import {AddOrEditBoardDialogService} from '../add-or-edit-board-service';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
@@ -29,9 +29,10 @@ import {MatIcon} from '@angular/material/icon';
     </div>
 
     <mat-paginator
-      [pageSize]="pageSize()"
+      [pageSize]="fixedPageSize == null ? pageSize() : fixedPageSize"
       [pageIndex]="pageIndex()"
       [length]="store.getBoardsCount()"
+      [hidePageSize]="true"
       [pageSizeOptions]="[5, 10, 20]"
       (page)="onPageChange($event)">
     </mat-paginator>
@@ -48,6 +49,8 @@ import {MatIcon} from '@angular/material/icon';
   `
 })
 export class BoardsManagementWidget {
+  @Input() fixedPageSize?: number | null;
+
   pageIndex = computed(() => this.store.getPagination().offset / this.store.getPagination().limit);
   pageSize = computed(() => this.store.getPagination().limit);
 
@@ -59,7 +62,7 @@ export class BoardsManagementWidget {
   }
 
   private registerEffects() {
-    effect(() => this.store.loadBoards());
+    effect(() => this.store.loadBoards(0, this.fixedPageSize ?? this.pageSize()));
   }
 
   async onPageChange(event: PageEvent) {
