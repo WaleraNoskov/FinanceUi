@@ -4,13 +4,15 @@
 <!--  <app-boards-management-widget style="width: 500px; max-height: 500px; display: inline-block"/>-->
 <!--</div>-->
 
-<router-outlet/>
+<div class="app-container">
+  <router-outlet/>
+</div>
 
 <mat-toolbar color="primary" class="bottom-nav" role="navigation">
-<!--  <button mat-icon-button (click)="navigate('home')">-->
-<!--    <mat-icon>home</mat-icon>-->
-<!--  </button>-->
-  <button mat-icon-button [routerLink]="['/boards']">
+  <!--  <button mat-icon-button (click)="navigate('home')">-->
+  <!--    <mat-icon>home</mat-icon>-->
+  <!--  </button>-->
+  <button mat-icon-button>
     <mat-icon>dashboard</mat-icon>
   </button>
   <button mat-icon-button [routerLink]="['/goals']">
