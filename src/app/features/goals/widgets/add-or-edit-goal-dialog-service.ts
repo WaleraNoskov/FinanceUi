@@ -1,8 +1,8 @@
 import {MatDialog} from '@angular/material/dialog';
 import {Injectable} from '@angular/core';
-import {Goal} from '../../core/entities/goal';
+import {Goal} from '../../../core/entities/goal';
 import {Observable, Subject} from 'rxjs';
-import {AddOrEditGoalForm} from './add-or-edit-goal-form/add-or-edit-goal-form';
+import {AddOrEditGoalForm} from '../components/add-or-edit-goal-form/add-or-edit-goal-form';
 
 @Injectable({ providedIn: 'root' })
 export class AddOrEditGoalDialogService {

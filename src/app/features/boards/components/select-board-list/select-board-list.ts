@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatFormField, MatLabel} from '@angular/material/input';
 import {MatOption, MatSelect} from '@angular/material/select';
-import {Board} from '../../../core/entities/board';
+import {Board} from '../../../../core/entities/board';
 
 @Component({
   selector: 'app-select-board-list',

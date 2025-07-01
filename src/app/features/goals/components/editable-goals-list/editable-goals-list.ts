@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatIconButton} from '@angular/material/button';
 import {MatList, MatListItem, MatListItemLine, MatListItemMeta, MatListItemTitle} from '@angular/material/list';
 import {MatIcon} from '@angular/material/icon';
-import {Goal} from '../../../core/entities/goal';
+import {Goal} from '../../../../core/entities/goal';
 
 @Component({
   selector: 'app-editable-goals-list',

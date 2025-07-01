@@ -3,11 +3,11 @@ import {CommonModule} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {MatFabButton} from '@angular/material/button';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {EditableGoalsList} from '../editable-goals-list/editable-goals-list';
-import {GoalStore} from '../goals-store';
+import {EditableGoalsList} from '../../components/editable-goals-list/editable-goals-list';
+import {GoalStore} from '../../goals-store';
 import {AddOrEditGoalDialogService} from '../add-or-edit-goal-dialog-service';
-import {Goal} from '../../../core/entities/goal';
-import {BoardStore} from '../../boards/board-store';
+import {Goal} from '../../../../core/entities/goal';
+import {BoardStore} from '../../../boards/board-store';
 
 
 @Component({

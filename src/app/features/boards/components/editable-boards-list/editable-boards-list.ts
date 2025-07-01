@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Board} from '../../../core/entities/board';
+import {Board} from '../../../../core/entities/board';
 import {MatIconButton} from '@angular/material/button';
 import {MatList, MatListItem, MatListItemMeta, MatListItemTitle} from '@angular/material/list';
 import {MatIcon} from '@angular/material/icon';

@@ -1,9 +1,9 @@
 import {Component, computed, effect} from '@angular/core';
-import {BoardStore} from '../board-store';
+import {BoardStore} from '../../board-store';
 import {AddOrEditBoardDialogService} from '../add-or-edit-board-service';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {Board} from '../../../core/entities/board';
-import {EditableBoardsList} from '../editable-boards-list/editable-boards-list';
+import {Board} from '../../../../core/entities/board';
+import {EditableBoardsList} from '../../components/editable-boards-list/editable-boards-list';
 import {MatFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 

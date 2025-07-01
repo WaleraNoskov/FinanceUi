@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {SelectBoardList} from '../select-board-list/select-board-list';
-import {BoardStore} from '../board-store';
+import {SelectBoardList} from '../../components/select-board-list/select-board-list';
+import {BoardStore} from '../../board-store';
 
 @Component({
     selector: 'app-select-board-widget',

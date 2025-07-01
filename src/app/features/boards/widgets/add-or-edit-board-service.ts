@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {Board} from '../../core/entities/board';
+import {Board} from '../../../core/entities/board';
 import {Observable, Subject} from 'rxjs';
-import {AddOrEditBoardForm} from './add-or-edit-board-from/add-or-edit-board-form.component';
+import {AddOrEditBoardForm} from '../components/add-or-edit-board-from/add-or-edit-board-form.component';
 
 @Injectable({ providedIn: 'root' })
 export class AddOrEditBoardDialogService {
