@@ -28,7 +28,7 @@ import {
         </mat-toolbar>
       </div>
 
-      <app-goals-management-widget/>
+      <app-goals-management-widget [fixedPageSize]="5"/>
     </div>
   `,
   styles: `

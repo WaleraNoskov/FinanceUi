@@ -1,126 +1,100 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Output, OnInit, Inject} from '@angular/core';
+import {ReactiveFormsModule, FormBuilder, Validators, FormGroup} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {CommonModule} from '@angular/common';
 import {Goal} from '../../../../core/entities/goal';
-import {MatError, MatFormField, MatInputModule, MatLabel} from '@angular/material/input';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatDatepickerInput, MatDatepickerModule, MatDatepickerToggle} from '@angular/material/datepicker';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_NATIVE_DATE_FORMATS,
-  MatNativeDateModule,
-  NativeDateAdapter
-} from '@angular/material/core';
-import {MatButton} from '@angular/material/button';
+import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-add-or-edit-goal-form',
+  standalone: true,
   imports: [
-    MatFormField,
     ReactiveFormsModule,
-    MatDatepickerInput,
-    MatDatepickerToggle,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatInputModule,
-    MatButton,
-    MatLabel,
-    MatError
-  ],
-  providers: [
-    {provide: DateAdapter, useClass: NativeDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS},
+    CommonModule
   ],
   template: `
-    <div class="form-container">
-      <form [formGroup]="form" (ngSubmit)="submit()" class="form">
-        <mat-form-field>
-          <mat-label>Title</mat-label>
-          <input matInput formControlName="title" required>
-          @if (form.get('title')?.hasError('required')) {
-            <mat-error>
-              Title cannot be empty
-            </mat-error>
-          }
-        </mat-form-field>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" required/>
+      </mat-form-field>
 
-        <mat-form-field >
-          <mat-label>Amount</mat-label>
-          <input matInput type="number" formControlName="targetAmount" required>
-          @if (form.get('targetAmount')?.hasError('min')) {
-            <mat-error>
-              Amount should be greater than 0
-            </mat-error>
-          }
-        </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Target Amount</mat-label>
+        <input matInput type="number" formControlName="targetAmount" required/>
+      </mat-form-field>
 
-        <mat-form-field >
-          <mat-label>Deadline date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="deadline">
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Current Amount</mat-label>
+        <input matInput type="number" formControlName="currentAmount"/>
+      </mat-form-field>
 
-        <div class="buttons-footer">
-          <button matButton="filled" type="submit" [disabled]="form.invalid">
-            Save
-          </button>
-          <button matButton="tonal" (click)="cancel()">
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Deadline</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="deadline" required/>
+        <mat-datepicker-toggle matSuffix [for]="picker"/>
+        <mat-datepicker #picker/>
+      </mat-form-field>
+
+      <div class="buttons">
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Сохранить</button>
+        <button mat-button type="button" (click)="cancel.emit()">Отмена</button>
+      </div>
+    </form>
   `,
-  styles: `
-    .form-container {
+  styles: [`
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
       padding: 16px;
     }
 
-    .form {
+    .buttons {
       display: flex;
-      flex-direction: column;
+      justify-content: flex-end;
       gap: 8px;
     }
-
-    .buttons-footer {
-      display: flex;
-      flex-direction: row;
-      align-self: end;
-      gap: 8px;
-    }
-  `
+  `]
 })
-export class AddOrEditGoalForm {
-  @Input() goal: Goal | null = null;
+export class AddOrEditGoalForm implements OnInit {
+  form!: FormGroup;
+
   @Output() saved = new EventEmitter<Goal>();
-  @Output() cancelled = new EventEmitter<void>();
+  @Output() cancel = new EventEmitter<void>();
 
-  form: FormGroup = new FormGroup({});
-
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public goal: Goal | null
+  ) {
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
       title: [this.goal?.title ?? '', Validators.required],
-      currentAmount: 0,
       targetAmount: [this.goal?.targetAmount ?? 0, [Validators.required, Validators.min(0)]],
-      deadline: [this.goal?.deadline ?? new Date()],
+      currentAmount: [this.goal?.currentAmount ?? 0, [Validators.min(0)]],
+      deadline: [this.goal?.deadline ?? new Date, Validators.required],
     });
   }
 
-  ngOnChanges() {
-    if (this.goal) {
-      this.form.patchValue(this.goal);
-    }
-  }
-
-  submit() {
+  onSubmit() {
     if (this.form.valid) {
-      this.saved.emit({ ...this.goal, ...this.form.value });
+      const value = this.form.value;
+      this.saved.emit({
+        ...this.goal,
+        ...value,
+        deadline: new Date(value.deadline!)
+      } as Goal);
     }
-  }
-
-  cancel() {
-    this.cancelled.emit();
   }
 }
