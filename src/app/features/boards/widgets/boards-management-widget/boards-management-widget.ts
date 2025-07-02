@@ -6,6 +6,9 @@ import {Board} from '../../../../core/entities/board';
 import {EditableBoardsList} from '../../components/editable-boards-list/editable-boards-list';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
+import {DeleteBoardDialog} from '../../components/delete-board-dialog/delete-board-dialog';
+import {DeleteBoardDialogService} from '../delete-board-dialog-service';
+import {async} from 'rxjs';
 
 @Component({
   selector: 'app-boards-management-widget',
@@ -55,7 +58,8 @@ export class BoardsManagementWidget {
 
   constructor(
     public store: BoardStore,
-    private readonly addOrEditBoardDialogService: AddOrEditBoardDialogService
+    private readonly addOrEditBoardDialogService: AddOrEditBoardDialogService,
+    private readonly deleteBoardDialogService: DeleteBoardDialogService
   ) {
     this.registerEffects()
   }
@@ -84,6 +88,10 @@ export class BoardsManagementWidget {
   }
 
   async delete(board: Board) {
-    await this.store.deleteBoard(board.id);
+    this.deleteBoardDialogService.openDeleteDialog(board.title)
+      .subscribe(async title => {
+        if(title === board.title)
+          await this.store.deleteBoard(board.id);
+      })
   }
 }

@@ -24,7 +24,7 @@ import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
         <h3>{{ isEditMode ? 'Edit board' : 'Create board' }}</h3>
 
         <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Название</mat-label>
+          <mat-label>Title</mat-label>
           <input matInput formControlName="title" required>
         </mat-form-field>
 

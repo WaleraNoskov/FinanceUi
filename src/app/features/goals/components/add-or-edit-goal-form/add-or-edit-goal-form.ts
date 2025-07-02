@@ -46,8 +46,10 @@ import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
       </mat-form-field>
 
       <div class="buttons">
-        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Сохранить</button>
-        <button mat-button type="button" (click)="cancel.emit()">Отмена</button>
+        <button matButton="filled" color="primary" type="submit"
+                [disabled]="form.invalid">{{ isEditMode ? 'Save' : 'Create' }}
+        </button>
+        <button matButton="outlined" type="button" (click)="cancel.emit()">Cancel</button>
       </div>
     </form>
   `,
@@ -68,6 +70,10 @@ import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
 })
 export class AddOrEditGoalForm implements OnInit {
   form!: FormGroup;
+
+  get isEditMode(): boolean {
+    return !!this.goal?.id;
+  }
 
   @Output() saved = new EventEmitter<Goal>();
   @Output() cancel = new EventEmitter<void>();
