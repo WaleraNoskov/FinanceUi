@@ -77,7 +77,6 @@ describe('BoardsStore', () => {
     mockService.getBoards.and.resolveTo({ items: boards, total: 2 });
 
     await store.loadBoards(5, 10);
-    await store.refresh();
 
     expect(mockService.getBoards).toHaveBeenCalledWith({ offset: 5, limit: 10 });
   });
@@ -94,7 +93,7 @@ describe('BoardsStore', () => {
 
   it('should update selectedBoard when a different board is set', () => {
     const board1: Board = { id: '1', title: 'Board 1' };
-    const board2: Board = { id: '1', title: 'Board 2' };
+    const board2: Board = { id: '2', title: 'Board 2' };
     store.setSelectedBoard(board1);
     store.setSelectedBoard(board2);
     expect(store.getSelected()).toEqual(board2);

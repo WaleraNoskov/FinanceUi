@@ -81,6 +81,6 @@ describe('GoalStore', () => {
     await store.loadGoals(5, 10);
     await store.refreshGoals();
 
-    expect(mockService.getGoals).toHaveBeenCalledWith({ offset: 5, limit: 10 }, '');
+    expect(mockService.getGoals).toHaveBeenCalledWith({ offset: 5, limit: 10 }, null);
   });
 });

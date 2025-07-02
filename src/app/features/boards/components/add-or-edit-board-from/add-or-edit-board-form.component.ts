@@ -19,21 +19,23 @@ import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
     MatButtonModule,
   ],
   template: `
-    <form *ngIf="form" [formGroup]="form" (ngSubmit)="submit()" class="form">
-      <h3>{{ isEditMode ? 'Edit board' : 'Create board' }}</h3>
+    @if (form) {
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+        <h3>{{ isEditMode ? 'Edit board' : 'Create board' }}</h3>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Название</mat-label>
-        <input matInput formControlName="title" required>
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Название</mat-label>
+          <input matInput formControlName="title" required>
+        </mat-form-field>
 
-      <div class="actions">
-        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
-          {{ isEditMode ? 'Save' : 'Create' }}
-        </button>
-        <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
-      </div>
-    </form>
+        <div class="actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+            {{ isEditMode ? 'Save' : 'Create' }}
+          </button>
+          <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+    }
   `,
   styles: [`
     h3{font-weight: 450;}
@@ -42,6 +44,7 @@ import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
     .full-width { width: 100%; }
   `]
 })
+
 export class AddOrEditBoardForm implements OnInit {
   form!: FormGroup;
 
