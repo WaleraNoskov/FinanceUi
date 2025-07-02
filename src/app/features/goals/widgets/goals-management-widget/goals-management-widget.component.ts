@@ -1,7 +1,7 @@
 import {Component, computed, effect} from "@angular/core";
 import {CommonModule} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
-import {MatFabButton} from '@angular/material/button';
+import {MatButton} from '@angular/material/button';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {EditableGoalsList} from '../../components/editable-goals-list/editable-goals-list';
 import {GoalStore} from '../../goals-store';
@@ -13,28 +13,51 @@ import {BoardStore} from '../../../boards/board-store';
 @Component({
   standalone: true,
   selector: 'app-goals-management-widget',
-  imports: [CommonModule, MatIcon, MatFabButton, EditableGoalsList, MatPaginator],
+  imports: [CommonModule, MatIcon, EditableGoalsList, MatPaginator, MatButton],
   template: `
-    <div class="goal-container">
-      <div>
-        <button class="fab-button" matFab (click)="openAddDialog()">
+    <div class="content-container">
+      <div class="buttons-container">
+        <button matButton="outlined" (click)="openAddDialog()">
           <mat-icon>add</mat-icon>
+          <span>Add</span>
         </button>
-
-        <app-editable-goals-list [goalList]="store.getGoals()" (deleted)="delete($event)"
-                                 (needToUpdate)="onUpdateEmitted($event)"/>
       </div>
-    </div>
 
-    <mat-paginator
-      [pageSize]="pageSize()"
-      [pageIndex]="pageIndex()"
-      [length]="store.getTotalCount()"
-      [pageSizeOptions]="[5, 10, 20]"
-      (page)="onPageChange($event)">
-    </mat-paginator>
+      <div class="goal-container">
+          <app-editable-goals-list [goalList]="store.getGoals()" (deleted)="delete($event)"
+                                   (needToUpdate)="onUpdateEmitted($event)"/>
+      </div>
+
+      <mat-paginator
+        [pageSize]="pageSize()"
+        [pageIndex]="pageIndex()"
+        [length]="store.getTotalCount()"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
   `,
-  styleUrl: './goals-management-widget.component.scss'
+  styles: `
+    .buttons-container{
+        align-self: end;
+    }
+
+    .goal-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      flex-grow: 1;
+      padding: 4px 0 0 0;
+    }
+
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      overflow: clip;
+    }
+  `
 })
 
 export class GoalsManagementWidget {
@@ -54,7 +77,7 @@ export class GoalsManagementWidget {
     effect(async () => {
       const board = this.boardStore.getSelected();
       if(board){
-        await this.store.loadGoals(0, 10,  board.id);
+        await this.store.loadGoals(0, 5,  board.id);
       }
     })
   }

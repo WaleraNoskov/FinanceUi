@@ -24,7 +24,7 @@ export class GoalStore {
   private readonly currentBoardId: WritableSignal<string | null> = signal('');
   public readonly getCurrentBoardId = computed(() => this.currentBoardId());
 
-  async loadGoals(offset = 0, limit = 10, boardId: string | null = null): Promise<void> {
+  async loadGoals(offset = 0, limit = 5, boardId: string | null = null): Promise<void> {
     this.pagination.set({offset, limit});
     this.isLoading.set(true);
     this.currentBoardId.set(boardId);

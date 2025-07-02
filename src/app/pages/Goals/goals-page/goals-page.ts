@@ -28,9 +28,7 @@ import {
         </mat-toolbar>
       </div>
 
-      <div class="content-container">
-        <app-goals-management-widget/>
-      </div>
+      <app-goals-management-widget/>
     </div>
   `,
   styles: `
@@ -59,10 +57,11 @@ import {
       text-wrap: auto;
     }
 
-    .content-container {
+    app-goals-management-widget {
+      display: flex;
       flex-grow: 1;
       overflow-y: auto;
-      padding: 0 24px;
+      padding: 32px 24px 8px 24px;
     }`
 })
 export class GoalsPage {
