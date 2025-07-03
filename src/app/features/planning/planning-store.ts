@@ -23,6 +23,8 @@ export class PlanningStore {
     const startDate = getPeriodStartDate(periodStart, period);
     const endDate = getPeriodEndDate(periodStart, period);
 
+    console.log('start end', startDate, endDate);
+
     this.period.set(period);
     this.periodStart.set(startDate);
 

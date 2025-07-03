@@ -39,8 +39,6 @@ import {AddOrEditIncomeFormDialogService} from "../add-or-edit-income-dialog-ser
   `
 })
 export class PlanningWidget {
-  @Output() columnCountChanged = new EventEmitter<number>();
-
   constructor(
     readonly planningStore: PlanningStore,
     private readonly boardStore: BoardStore,
@@ -57,7 +55,6 @@ export class PlanningWidget {
         return;
 
       await this.planningStore.loadColumns(Recurrence.Monthly, new Date(), currentBoard!.id);
-      this.columnCountChanged.emit(this.planningStore.getColumns.length);
     });
   }
 
@@ -66,7 +63,6 @@ export class PlanningWidget {
       return;
 
     await this.planningStore.loadColumns(Recurrence.Monthly, new Date(), this.boardStore.getSelected()!.id )
-    this.columnCountChanged.emit(this.planningStore.getColumns.length);
   }
 
   async onAddIncome(): Promise<void> {

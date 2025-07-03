@@ -1,6 +1,9 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, computed, effect, signal, WritableSignal} from '@angular/core';
 import {PlanningWidget} from '../../../features/planning/widgets/planning-widget/planning-widget';
 import {EmptyPlanningPageWidget} from '../empty-page-widget/empty-planning-page-widget.component';
+import {PlanningStore} from '../../../features/planning/planning-store';
+import {Recurrence} from '../../../core/contracts/recurrence';
+import {BoardStore} from '../../../features/boards/board-store';
 
 @Component({
   selector: 'app-planning-page',
@@ -17,12 +20,12 @@ import {EmptyPlanningPageWidget} from '../empty-page-widget/empty-planning-page-
           <div></div>
         </div>
       } @else {
-        <app-planning-widget (columnCountChanged)="onColumnsCountChanged($event)"/>
+        <app-planning-widget/>
       }
     </div>
   `,
   styles: `
-    .container{
+    .container {
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -37,7 +40,7 @@ import {EmptyPlanningPageWidget} from '../empty-page-widget/empty-planning-page-
       align-items: center;
     }
 
-    .spacer{
+    .spacer {
     }
 
     app-planning-page {
@@ -47,10 +50,30 @@ import {EmptyPlanningPageWidget} from '../empty-page-widget/empty-planning-page-
   `
 })
 export class PlanningPage {
-  private columnsIsEmpty = signal<boolean>(true);
-  public getColumnsIsEmpty = computed(() => this.columnsIsEmpty());
+  private columnsIsEmpty: WritableSignal<boolean> = signal<boolean>(true);
+  public readonly getColumnsIsEmpty = computed(() => this.columnsIsEmpty());
 
-  public onColumnsCountChanged(count: number) {
-    this.columnsIsEmpty.set(count == 0);
+  constructor(
+    private readonly planningStore: PlanningStore,
+    private readonly boardStore: BoardStore
+  ) {
+     this.registerEffects();
+  }
+
+  private registerEffects(): void {
+    effect(() => {
+      console.log('set empty')
+      
+      const columns = this.planningStore.getColumns();
+      this.columnsIsEmpty.set(columns.length == 0);
+    });
+    effect(async () => {
+      console.log('load columns')
+
+      const board = this.boardStore.getSelected();
+
+      if(board)
+        await this.planningStore.loadColumns(Recurrence.Monthly, new Date(), board.id)
+    });
   }
 }
