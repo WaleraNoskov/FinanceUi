@@ -41,11 +41,23 @@ export class PlanningStore {
     this.columns.set(columns);
   }
 
-  getSortedIncomeDays(incomes: Income[]): Date[] {
+  async createIncome(income: Income): Promise<string> {
+    return await this.incomeService.create(income);
+  }
+
+  async updateIncome(income: Income): Promise<void> {
+    await this.incomeService.update(income);
+  }
+
+  async deleteIncome(income: Income): Promise<void> {
+    await this.incomeService.delete(income.id)
+  }
+
+  private getSortedIncomeDays(incomes: Income[]): Date[] {
     return this.getIncomeDays(incomes).sort((a, b) => a.getTime() - b.getTime());
   }
 
-  getIncomeDays(incomes: Income[]): Date[] {
+  private getIncomeDays(incomes: Income[]): Date[] {
     const days = new Set<string>();
 
     for (const income of incomes) {

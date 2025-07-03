@@ -18,7 +18,6 @@ export class AddOrEditBoardDialogService {
 
   private openAsDialog(board?: Board): Observable<Board | undefined> {
     const ref = this.dialog.open(AddOrEditBoardForm, {
-      width: '500px',
       disableClose: true,
     });
 

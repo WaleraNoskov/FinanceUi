@@ -15,7 +15,6 @@ import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatInputModule,
     MatButtonModule,
   ],
   template: `

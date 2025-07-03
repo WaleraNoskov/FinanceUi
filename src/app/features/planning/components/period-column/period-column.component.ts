@@ -12,7 +12,7 @@ import {Income} from '../../../../core/entities/income';
     <div class="column">
       <app-incomes [column]="column"
                    (add)="addIncome.emit()"
-                   (edit)="editIncome.emit($event)"
+                   (edit)="updateIncome.emit($event)"
                    (delete)="deleteIncome.emit($event)"/>
     </div>
   `,
@@ -22,6 +22,6 @@ export class PeriodColumnComponent {
   @Input() column?: PeriodColumn;
 
   @Output() addIncome = new EventEmitter<void>();
-  @Output() editIncome = new EventEmitter<Income>();
+  @Output() updateIncome = new EventEmitter<Income>();
   @Output() deleteIncome = new EventEmitter<Income>();
 }

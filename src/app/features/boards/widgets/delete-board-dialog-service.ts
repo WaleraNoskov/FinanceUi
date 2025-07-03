@@ -9,7 +9,6 @@ export class DeleteBoardDialogService {
 
   openDeleteDialog(boardName: string): Observable<string | undefined> {
     const ref = this.dialog.open(DeleteBoardDialog, {
-      width: '400px',
       data: { boardName },
     });
 

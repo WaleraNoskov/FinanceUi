@@ -2,26 +2,49 @@ import {PlanningStore} from './planning-store';
 import {IncomeService} from '../../application/services/income.service.impl';
 import {Income} from '../../core/entities/income';
 import {v4 as uuidv4} from 'uuid';
+import {Recurrence} from '../../core/contracts/recurrence';
+import {IIncomeService} from '../../core/services/income.service';
 
 describe('PlanningStore', () => {
   let store: PlanningStore;
   let incomeServiceSpy: jasmine.SpyObj<IncomeService>;
 
+  const fakeIncome: Income = {
+    id: uuidv4(),
+    name: 'Test Income',
+    amount: 1000,
+    date: new Date(),
+    recurrence: Recurrence.Monthly,
+    boardId: 'board-1',
+  };
+
   beforeEach(() => {
-    incomeServiceSpy = jasmine.createSpyObj('IncomeService', ['getIncomes']);
+    incomeServiceSpy = jasmine.createSpyObj<IncomeService>('IIncomeService', ['create', 'update', 'delete']);
     store = new PlanningStore(incomeServiceSpy);
   });
 
-  it('should return sorted income days', () => {
-    const mockIncomes: Income[] = [
-      { id: uuidv4(), name: 'Salary', amount: 1000, date: new Date('2024-05-01'), recurrence: 0, boardId: '1' },
-      { id: uuidv4(), name: 'Bonus', amount: 500, date: new Date('2024-05-03'), recurrence: 0, boardId: '1' },
-      { id: uuidv4(), name: 'Freelance', amount: 800, date: new Date('2024-05-01'), recurrence: 0, boardId: '1' },
-    ];
+  it('should call create on incomeService', async () => {
+    incomeServiceSpy.create.and.resolveTo('1');
 
-    const days = store.getSortedIncomeDays(mockIncomes);
-    expect(days.length).toBe(2);
-    expect(days[0].toDateString()).toBe(new Date('2024-05-01').toDateString());
-    expect(days[1].toDateString()).toBe(new Date('2024-05-03').toDateString());
+    const result = await store.createIncome(fakeIncome);
+
+    expect(incomeServiceSpy.create).toHaveBeenCalledOnceWith(fakeIncome);
+    expect(result).toBe('1');
+  });
+
+  it('should call update on incomeService', async () => {
+    incomeServiceSpy.update.and.resolveTo();
+
+    await store.updateIncome(fakeIncome);
+
+    expect(incomeServiceSpy.update).toHaveBeenCalledOnceWith(fakeIncome);
+  });
+
+  it('should call delete on incomeService with income id', async () => {
+    incomeServiceSpy.delete.and.resolveTo();
+
+    await store.deleteIncome(fakeIncome);
+
+    expect(incomeServiceSpy.delete).toHaveBeenCalledOnceWith(fakeIncome.id);
   });
 });
