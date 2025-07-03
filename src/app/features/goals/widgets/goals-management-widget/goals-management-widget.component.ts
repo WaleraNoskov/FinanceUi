@@ -1,4 +1,4 @@
-import {Component, computed, effect} from "@angular/core";
+import {Component, computed, effect, Input} from "@angular/core";
 import {CommonModule} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
@@ -33,6 +33,7 @@ import {BoardStore} from '../../../boards/board-store';
         [pageIndex]="pageIndex()"
         [length]="store.getTotalCount()"
         [pageSizeOptions]="[5, 10, 20]"
+        [hidePageSize]="fixedPageSize != null"
         (page)="onPageChange($event)">
       </mat-paginator>
     </div>
@@ -61,6 +62,8 @@ import {BoardStore} from '../../../boards/board-store';
 })
 
 export class GoalsManagementWidget {
+  @Input() fixedPageSize?: number | null;
+
   pageIndex = computed(() => this.store.getPagination().offset / this.store.getPagination().limit);
   pageSize = computed(() => this.store.getPagination().limit);
 
@@ -77,7 +80,7 @@ export class GoalsManagementWidget {
     effect(async () => {
       const board = this.boardStore.getSelected();
       if(board){
-        await this.store.loadGoals(0, 5,  board.id);
+        await this.store.loadGoals(0, this.fixedPageSize ?? 10,  board.id);
       }
     })
   }

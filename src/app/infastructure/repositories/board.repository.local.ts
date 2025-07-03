@@ -58,7 +58,20 @@ export class BoardRepositoryLocal implements IBoardRepository {
 
   async delete(id: string): Promise<void> {
     const db = await this.dbService.db;
-    await db.delete('boards', id);
+
+    const tx = db.transaction(['boards', 'goals'], 'readwrite');
+    const goalsStore = tx.objectStore('goals');
+    const boardsStore = tx.objectStore('boards');
+
+    const index = goalsStore.index('by_board');
+    let cursor = await index.openCursor(IDBKeyRange.only(id));
+    while (cursor) {
+      await cursor.delete();
+      cursor = await cursor.continue();
+    }
+
+    await boardsStore.delete(id);
+    await tx.done;
   }
 
   async openAccess(): Promise<void> {
