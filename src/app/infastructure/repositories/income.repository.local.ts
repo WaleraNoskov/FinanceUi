@@ -1,4 +1,4 @@
-import {IncomeRepository} from '../../core/repositories/income.repository';
+import {IIncomeRepository} from '../../core/repositories/IncomeRepository';
 import {IndexedDbService} from '../indexed-db.service';
 import {PaginationParams} from '../../core/contracts/pagination-params';
 import {Injectable} from '@angular/core';
@@ -7,7 +7,7 @@ import {Income} from '../../core/entities/income';
 import {v4 as uuidv4} from 'uuid';
 
 @Injectable()
-export class IncomeRepositoryLocal implements IncomeRepository {
+export class IncomeRepositoryLocal implements IIncomeRepository {
 
   constructor(private readonly dbService: IndexedDbService) {
   }

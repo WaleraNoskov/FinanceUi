@@ -2,7 +2,7 @@ import {Income} from '../entities/income';
 import {PaginationParams} from '../contracts/pagination-params';
 import {PaginationResult} from '../contracts/pagination-result';
 
-export interface IncomeService {
+export interface IIncomeService {
   getIncomes(pagination: PaginationParams, boardId: string | null, startDate: Date, endDate: Date): Promise<PaginationResult<Income>>;
 
   getById(id: string | null): Promise<Income | undefined>;
