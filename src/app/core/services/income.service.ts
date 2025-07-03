@@ -3,7 +3,9 @@ import {PaginationParams} from '../contracts/pagination-params';
 import {PaginationResult} from '../contracts/pagination-result';
 
 export interface IIncomeService {
-  getIncomes(pagination: PaginationParams, boardId: string | null, startDate: Date, endDate: Date): Promise<PaginationResult<Income>>;
+  getIncomesPaginated(pagination: PaginationParams, boardId: string | null, startDate: Date, endDate: Date): Promise<PaginationResult<Income>>;
+
+  getIncomes( boardId: string | null, startDate: Date, endDate: Date): Promise<Income[]>;
 
   getById(id: string | null): Promise<Income | undefined>;
 

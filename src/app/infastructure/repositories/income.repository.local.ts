@@ -12,7 +12,7 @@ export class IncomeRepositoryLocal implements IIncomeRepository {
   constructor(private readonly dbService: IndexedDbService) {
   }
 
-  async getIncomes(pagination: PaginationParams, boardId: string | null, startDate: Date, endDate: Date): Promise<PaginationResult<Income>> {
+  async getIncomesPaginated(pagination: PaginationParams, boardId: string | null, startDate: Date, endDate: Date): Promise<PaginationResult<Income>> {
     const db = await this.dbService.db;
     const store = db.transaction('incomes', 'readonly').objectStore('incomes');
     const index = store.index('by_board');
@@ -41,6 +41,30 @@ export class IncomeRepositoryLocal implements IIncomeRepository {
     }
 
     incomes.total = matched;
+    return incomes;
+  }
+
+  async getIncomes(boardId: string | null, startDate: Date, endDate: Date): Promise<Income[]> {
+    const db = await this.dbService.db;
+    const store = db.transaction('incomes', 'readonly').objectStore('incomes');
+    const index = store.index('by_board');
+
+    const incomes: Income[] = [];
+    const range = boardId ? IDBKeyRange.only(boardId) : null;
+
+    let cursor = range ? await index.openCursor(range) : await store.openCursor();
+
+    while (cursor) {
+      const income: Income = cursor.value;
+      const date = new Date(income.date);
+
+      if (date >= startDate && date <= endDate) {
+        incomes.push(income);
+      }
+
+      cursor = await cursor.continue();
+    }
+
     return incomes;
   }
 

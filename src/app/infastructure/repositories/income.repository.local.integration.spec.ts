@@ -99,8 +99,8 @@ describe('IncomeRepositoryLocal', () => {
     await repo.create(income1);
     await repo.create(income2);
 
-    const params: PaginationParams = { offset: 0, limit: 10 };
-    const result = await repo.getIncomes(params, 'board1', new Date(today.getFullYear(), 0), new Date(today.getFullYear(), 11));
+    const params: PaginationParams = {offset: 0, limit: 10};
+    const result = await repo.getIncomesPaginated(params, 'board1', new Date(today.getFullYear(), 0), new Date(today.getFullYear(), 11));
 
     expect(result.items.length).toBe(1);
     expect(result.items[0].boardId).toBe('board1');

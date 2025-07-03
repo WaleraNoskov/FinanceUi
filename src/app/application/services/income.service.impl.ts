@@ -12,8 +12,12 @@ export class IncomeService implements IIncomeService {
   constructor(@Inject(INCOME_REPOSITORY) private readonly incomeRepository: IIncomeRepository) {
   }
 
-  async getIncomes(pagination: PaginationParams, boardId: string | null, startDate: Date, endDate: Date): Promise<PaginationResult<Income>> {
-    return await this.incomeRepository.getIncomes(pagination, boardId, startDate, endDate);
+  async getIncomes(boardId: string | null, startDate: Date, endDate: Date): Promise<Income[]> {
+    return await this.incomeRepository.getIncomes(boardId, startDate, endDate);
+  }
+
+  async getIncomesPaginated(pagination: PaginationParams, boardId: string | null, startDate: Date, endDate: Date): Promise<PaginationResult<Income>> {
+    return await this.incomeRepository.getIncomesPaginated(pagination, boardId, startDate, endDate);
   }
 
   async getById(id: string | null): Promise<Income | undefined> {

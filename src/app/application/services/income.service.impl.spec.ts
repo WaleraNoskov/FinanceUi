@@ -16,7 +16,7 @@ describe('IncomeService', () => {
 
   beforeEach(() => {
     mockRepository = jasmine.createSpyObj<IIncomeRepository>('IIncomeRepository', [
-      'getIncomes', 'getById', 'create', 'update', 'delete'
+      'getIncomesPaginated', 'getById', 'create', 'update', 'delete'
     ]);
 
     TestBed.configureTestingModule({
@@ -46,11 +46,11 @@ describe('IncomeService', () => {
     const startDate = new Date('2024-01-01');
     const endDate = new Date('2024-12-31');
 
-    mockRepository.getIncomes.and.resolveTo(mockIncomes);
+    mockRepository.getIncomesPaginated.and.resolveTo(mockIncomes);
 
-    const result = await service.getIncomes(pagination, defaultBoardId, startDate, endDate);
+    const result = await service.getIncomesPaginated(pagination, defaultBoardId, startDate, endDate);
 
-    expect(mockRepository.getIncomes).toHaveBeenCalledWith(pagination, defaultBoardId, startDate, endDate);
+    expect(mockRepository.getIncomesPaginated).toHaveBeenCalledWith(pagination, defaultBoardId, startDate, endDate);
     expect(result).toEqual(mockIncomes);
   });
 
