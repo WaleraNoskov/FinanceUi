@@ -21,7 +21,7 @@ import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
 
     <app-incomes [column]="column"
                  (add)="addIncome.emit()"
-                 (edit)="updateIncome.emit($event)"
+                 (update)="updateIncome.emit($event)"
                  (delete)="deleteIncome.emit($event)"/>
   `,
   styles: `

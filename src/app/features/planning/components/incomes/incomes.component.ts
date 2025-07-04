@@ -50,7 +50,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
           </mat-list-item>
 
           <mat-menu #contextMenu="matMenu">
-            <button mat-menu-item (click)="edit.emit(selectedIncome)">
+            <button mat-menu-item (click)="update.emit(selectedIncome)">
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
@@ -93,16 +93,16 @@ export class IncomesComponent {
 
   @Input() column?: PeriodColumn;
   @Output() add = new EventEmitter();
-  @Output() edit = new EventEmitter<Income>();
+  @Output() update = new EventEmitter<Income>();
   @Output() delete = new EventEmitter<Income>();
 
   @ViewChild(MatMenuTrigger, {static: true}) menuTrigger!: MatMenuTrigger;
 
-  onPressStart(event: MouseEvent | TouchEvent, item: any) {
+  onPressStart(event: MouseEvent | TouchEvent, item: Income) {
     event.preventDefault(); // предотвращает выделение текста
 
+    this.selectedIncome = item;
     this.longPressTimeout = setTimeout(() => {
-      this.selectedIncome = item;
       this.menuTrigger.openMenu();
     }, 1000); // 500 мс — длительность долгого нажатия
   }

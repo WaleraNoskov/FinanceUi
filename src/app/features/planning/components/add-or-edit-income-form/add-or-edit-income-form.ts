@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Output} from '@angular/core';
 import {Income} from '../../../../core/entities/income';
 import {Recurrence} from '../../../../core/contracts/recurrence';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -12,6 +12,7 @@ import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {MatButton} from '@angular/material/button';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
 
 @Component({
   standalone: true,
@@ -89,7 +90,6 @@ import {MatNativeDateModule} from '@angular/material/core';
     .full-width { width: 100%; }`
 })
 export class AddOrEditIncomeForm {
-  @Input() income?: Partial<Income>;
   @Output() submitted = new EventEmitter<Income>();
   @Output() cancelled = new EventEmitter<void>();
 
@@ -97,7 +97,10 @@ export class AddOrEditIncomeForm {
 
   readonly recurrenceOptions = Object.values(Recurrence);
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public income:  Income | null,
+  ) {
   }
 
   ngOnInit() {
@@ -107,8 +110,8 @@ export class AddOrEditIncomeForm {
       amount: [0, [Validators.required, Validators.min(0)]],
       date: [new Date(), Validators.required],
       recurrence: [Recurrence.Once, Validators.required],
-      interval: [0],
-      endDate: [new Date()],
+      interval: [null],
+      endDate: [null],
     });
 
     if (this.income) {

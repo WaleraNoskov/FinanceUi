@@ -8,13 +8,15 @@ import {Observable, Subject} from 'rxjs';
 export class AddOrEditIncomeFormDialogService {
   constructor(private bottomSheet: MatBottomSheet) {}
 
-  open(income?: Partial<Income>): Observable<Income | undefined> {
+  open(income?: Income): Observable<Income | undefined> {
     const ref = this.bottomSheet.open(AddOrEditIncomeForm, {
-      data: income,
+      data: income ?? null,
     });
 
     const result$ = new Subject<Income | undefined>();
     const instance = ref.instance;
+
+    instance.income = income ?? null;
 
     instance.submitted.subscribe((result: Income) => {
       ref.dismiss();
