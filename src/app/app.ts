@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
@@ -15,6 +15,6 @@ export class App {
   protected title = 'untitled';
 
   constructor(boardStore: BoardStore) {
-    boardStore.loadBoards().then(() => console.log(1))
+    boardStore.loadBoards().then()
   }
 }

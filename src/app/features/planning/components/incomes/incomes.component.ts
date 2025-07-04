@@ -20,56 +20,70 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
     MatMenuTrigger,
   ],
   template: `
-    <div class="container">
-      <div class="header">
-        <h3>Incomes</h3>
-        <button matButton="outlined" (click)="add.emit()">
-          <mat-icon>add</mat-icon>
-          <span>Add</span>
-        </button>
-      </div>
+    <div class="header">
+      <h3>Incomes</h3>
+      <button matButton="outlined" (click)="add.emit()">
+        <mat-icon>add</mat-icon>
+        <span>Add</span>
+      </button>
+    </div>
 
-      <div class="content">
-        <mat-list>
-          @if (column) {
-            @for (income of column.incomes; track income.id) {
-              <mat-list-item
-                [matMenuTriggerFor]="contextMenu"
-                #menuTrigger
-                (mousedown)="onPressStart($event, income)"
-                (mouseup)="onPressEnd()"
-                (mouseleave)="onPressEnd()"
-                (touchstart)="onPressStart($event, income)"
-                (touchend)="onPressEnd()">
-                <span matListItemTitle>{{ income.amount }}</span>
-                <span matListItemLine>{{ income.name }}</span>
-              </mat-list-item>
-            }
-
-            <mat-menu #contextMenu="matMenu">
-              <button mat-menu-item (click)="edit.emit(selectedIncome)">
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </button>
-              <button mat-menu-item (click)="delete.emit(selectedIncome)">
-                <mat-icon>delete</mat-icon>
-                <span>Delete</span>
-              </button>
-            </mat-menu>
+    <div class="content">
+      <mat-list>
+        @if (column) {
+          @for (income of column.incomes; track income.id) {
+            <mat-list-item
+              [matMenuTriggerFor]="contextMenu"
+              #menuTrigger
+              (mousedown)="onPressStart($event, income)"
+              (mouseup)="onPressEnd()"
+              (mouseleave)="onPressEnd()"
+              (touchstart)="onPressStart($event, income)"
+              (touchend)="onPressEnd()">
+              <span matListItemTitle>{{ income.amount }}</span>
+              <span matListItemLine>{{ income.name }}</span>
+            </mat-list-item>
           }
-        </mat-list>
-      </div>
+
+          <mat-list-item>
+            <span matListItemTitle class="total-title">Total income: {{ column.totalIncome }}</span>
+          </mat-list-item>
+
+          <mat-menu #contextMenu="matMenu">
+            <button mat-menu-item (click)="edit.emit(selectedIncome)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="delete.emit(selectedIncome)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        }
+      </mat-list>
     </div>
   `,
   styles: `
-    .container{
+    :host {
       display: flex;
       flex-direction: column;
     }
 
-    .header{
+    .header {
+      padding: 0 16px;
+      border-radius: 8px;
       display: flex;
       justify-content: space-between;
+    }
+
+    .header h3{
+      margin: 0;
+      font-size: 36px;
+      align-self: center;
+      font-weight: 450;
+    }
+
+    .total-title {
     }
   `
 })
@@ -90,7 +104,7 @@ export class IncomesComponent {
     this.longPressTimeout = setTimeout(() => {
       this.selectedIncome = item;
       this.menuTrigger.openMenu();
-    }, 500); // 500 мс — длительность долгого нажатия
+    }, 1000); // 500 мс — длительность долгого нажатия
   }
 
   onPressEnd() {

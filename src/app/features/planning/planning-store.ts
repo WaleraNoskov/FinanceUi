@@ -23,8 +23,6 @@ export class PlanningStore {
     const startDate = getPeriodStartDate(periodStart, period);
     const endDate = getPeriodEndDate(periodStart, period);
 
-    console.log('start end', startDate, endDate);
-
     this.period.set(period);
     this.periodStart.set(startDate);
 
@@ -103,8 +101,8 @@ class PeriodColumnBuilder {
 
   private isInPeriod(date: Date): boolean {
     const target = new Date(date);
-    const start = new Date(this.date);
-    const end = this.endDate ? new Date(this.endDate) : start;
+    const start = getPeriodStartDate(date, Recurrence.Once)
+    const end = getPeriodEndDate(this.endDate ? this.endDate : start, Recurrence.Once);
     return target >= start && target <= end;
   }
 }

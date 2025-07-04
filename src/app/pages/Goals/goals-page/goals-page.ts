@@ -12,7 +12,6 @@ import {
     GoalsManagementWidget
   ],
   template: `
-    <div class="goals-page">
       <div class="header-container">
         <mat-toolbar color="primary" class="header">
           <mat-toolbar-row>
@@ -29,10 +28,9 @@ import {
       </div>
 
       <app-goals-management-widget [fixedPageSize]="5"/>
-    </div>
   `,
   styles: `
-    .goals-page {
+    :host {
       display: flex;
       flex-direction: column;
       height: 100%;

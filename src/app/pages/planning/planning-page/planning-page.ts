@@ -12,7 +12,6 @@ import {BoardStore} from '../../../features/boards/board-store';
     EmptyPlanningPageWidget
   ],
   template: `
-    <div class="container">
       @if (getColumnsIsEmpty()) {
         <div class="empty-page-container">
           <div class="spacer"></div>
@@ -22,10 +21,9 @@ import {BoardStore} from '../../../features/boards/board-store';
       } @else {
         <app-planning-widget/>
       }
-    </div>
   `,
   styles: `
-    .container {
+    :host {
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -42,11 +40,6 @@ import {BoardStore} from '../../../features/boards/board-store';
 
     .spacer {
     }
-
-    app-planning-page {
-      flex-grow: 1;
-      display: flex;
-    }
   `
 })
 export class PlanningPage {
@@ -62,14 +55,10 @@ export class PlanningPage {
 
   private registerEffects(): void {
     effect(() => {
-      console.log('set empty')
-      
       const columns = this.planningStore.getColumns();
       this.columnsIsEmpty.set(columns.length == 0);
     });
     effect(async () => {
-      console.log('load columns')
-
       const board = this.boardStore.getSelected();
 
       if(board)

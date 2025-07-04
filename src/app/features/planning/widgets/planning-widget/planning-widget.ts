@@ -1,4 +1,4 @@
-import {Component, effect, EventEmitter, Output} from '@angular/core';
+import {Component, effect} from '@angular/core';
 import {PlanningStore} from '../../planning-store';
 import {BoardStore} from '../../../boards/board-store';
 import {Recurrence} from '../../../../core/contracts/recurrence';
@@ -24,17 +24,15 @@ import {AddOrEditIncomeFormDialogService} from "../add-or-edit-income-dialog-ser
   `,
   styles: `
     .column-scroll-container {
+      display: flex;
       flex-grow: 1;
       scroll-snap-align: start;
-      width: 300px;
-      margin-right: 8px;
     }
 
-    .column-scroll-container app-period-column {
+    :host{
+      display: flex;
+      flex-direction: column;
       flex-grow: 1;
-      scroll-snap-align: start;
-      width: 300px;
-      margin-right: 8px;
     }
   `
 })
