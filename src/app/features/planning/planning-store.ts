@@ -10,11 +10,14 @@ export class PlanningStore {
   private columns = signal<PeriodColumn[]>([]);
   public readonly getColumns = computed(() => this.columns());
 
-  private period = signal<Recurrence>(Recurrence.Monthly);
-  public readonly getPeriod = computed(() => this.period())
+  private recurrence = signal<Recurrence>(Recurrence.Monthly);
+  public readonly getRecurrence = computed(() => this.recurrence())
 
   private periodStart = signal<Date>(new Date());
   public readonly getPeriodStart = computed(() => this.periodStart());
+
+  private currentBoardId = signal<string>('');
+  public readonly getCurrentBoardId = signal(() => this.currentBoardId())
 
   constructor(@Inject(INCOME_SERVICE) private incomeService: IIncomeService) {
   }
@@ -23,8 +26,9 @@ export class PlanningStore {
     const startDate = getPeriodStartDate(periodStart, period);
     const endDate = getPeriodEndDate(periodStart, period);
 
-    this.period.set(period);
+    this.recurrence.set(period);
     this.periodStart.set(startDate);
+    this.currentBoardId.set(boardId);
 
     const incomes = await this.incomeService.getIncomes(boardId, startDate, endDate);
     const incomeDays = this.getSortedIncomeDays(incomes);
@@ -41,16 +45,19 @@ export class PlanningStore {
     this.columns.set(columns);
   }
 
-  async createIncome(income: Income): Promise<string> {
-    return await this.incomeService.create(income);
+  async createIncome(income: Income): Promise<void> {
+    await this.incomeService.create(income);
+    await this.loadColumns(this.recurrence(), this.periodStart(), this.currentBoardId())
   }
 
   async updateIncome(income: Income): Promise<void> {
     await this.incomeService.update(income);
+    await this.loadColumns(this.recurrence(), this.periodStart(), this.currentBoardId())
   }
 
   async deleteIncome(income: Income): Promise<void> {
-    await this.incomeService.delete(income.id)
+    await this.incomeService.delete(income.id);
+    await this.loadColumns(this.recurrence(), this.periodStart(), this.currentBoardId());
   }
 
   private getSortedIncomeDays(incomes: Income[]): Date[] {
@@ -85,6 +92,7 @@ class PeriodColumnBuilder {
 
   withIncomes(incomes: Income[]): this {
     this.incomes = incomes.filter(income => this.isInPeriod(income.date));
+    console.log(this.incomes)
     return this;
   }
 

@@ -13,14 +13,14 @@ import {AddOrEditIncomeFormDialogService} from "../add-or-edit-income-dialog-ser
     PeriodColumnComponent
   ],
   template: `
-      <div class="column-scroll-container">
-          @for (column of planningStore.getColumns(); track column) {
-              <app-period-column [column]="column"
-                                 (addIncome)="onAddIncome()"
-                                 (updateIncome)="onUpdateIncome($event)"
-                                 (deleteIncome)="onDeleteIncome($event)"/>
-          }
-      </div>
+    <div class="column-scroll-container">
+      @for (column of planningStore.getColumns(); track column) {
+        <app-period-column [column]="column"
+                           (addIncome)="onAddIncome()"
+                           (updateIncome)="onUpdateIncome($event)"
+                           (deleteIncome)="onDeleteIncome($event)"/>
+      }
+    </div>
   `,
   styles: `
     .column-scroll-container {
@@ -29,7 +29,7 @@ import {AddOrEditIncomeFormDialogService} from "../add-or-edit-income-dialog-ser
       scroll-snap-align: start;
     }
 
-    :host{
+    :host {
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -45,11 +45,11 @@ export class PlanningWidget {
     this.registerEffects();
   }
 
-  registerEffects(){
+  registerEffects() {
     effect(async () => {
       const currentBoard = this.boardStore.getSelected();
 
-      if(currentBoard == null)
+      if (currentBoard == null)
         return;
 
       await this.planningStore.loadColumns(Recurrence.Monthly, new Date(), currentBoard!.id);
@@ -57,23 +57,27 @@ export class PlanningWidget {
   }
 
   async ngOnInit() {
-    if(this.boardStore.getSelected() == null)
+    if (this.boardStore.getSelected() == null)
       return;
 
-    await this.planningStore.loadColumns(Recurrence.Monthly, new Date(), this.boardStore.getSelected()!.id )
+    await this.planningStore.loadColumns(Recurrence.Monthly, new Date(), this.boardStore.getSelected()!.id)
   }
 
   async onAddIncome(): Promise<void> {
-    this.addOrEditIncomeService.open().subscribe(async income =>{
-      if(income)
+    this.addOrEditIncomeService.open().subscribe(async income => {
+      if (income) {
+        income.boardId = this.boardStore.getSelected()!.id;
         await this.planningStore.createIncome(income);
+      }
     });
   }
 
   async onUpdateIncome(income: Income): Promise<void> {
-    this.addOrEditIncomeService.open(income).subscribe(async income =>{
-      if(income)
+    this.addOrEditIncomeService.open(income).subscribe(async income => {
+      if (income) {
+        income.boardId = this.boardStore.getSelected()!.id;
         await this.planningStore.updateIncome(income);
+      }
     });
   }
 

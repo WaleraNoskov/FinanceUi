@@ -21,6 +21,9 @@ import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
     MatNativeDateModule,
     CommonModule
   ],
+  providers: [
+    MatDatepickerModule
+  ],
   template: `
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="fill">

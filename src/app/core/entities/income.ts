@@ -6,8 +6,8 @@ export interface Income{
   amount: number;
   date: Date;
   recurrence: Recurrence,
-  interval?: number;
-  endDate?: Date;
+  interval?: number | null;
+  endDate?: Date | null;
 
   boardId: string
 }
