@@ -1,0 +1,19 @@
+<div class="board-container">
+  <button class="add-button" matButton="outlined" (click)="openAddDialog()">
+    <mat-icon>add</mat-icon>
+    <span>Add</span>
+  </button>
+
+  <app-editable-boards-list [boardList]="store.getBoards()" (deleted)="delete($event)"
+                            (selected)="store.setSelectedBoard($event)"
+                            (needToUpdate)="onUpdateEmitted($event)"/>
+</div>
+
+<mat-paginator
+  [pageSize]="fixedPageSize == null ? pageSize() : fixedPageSize"
+  [pageIndex]="pageIndex()"
+  [length]="store.getBoardsCount()"
+  [hidePageSize]="true"
+  [pageSizeOptions]="[5, 10, 20]"
+  (page)="onPageChange($event)">
+</mat-paginator>

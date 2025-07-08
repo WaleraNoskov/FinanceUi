@@ -12,29 +12,8 @@ import {AddOrEditIncomeFormDialogService} from "../add-or-edit-income-dialog-ser
   imports: [
     PeriodColumnComponent
   ],
-  template: `
-    <div class="column-scroll-container">
-      @for (column of planningStore.getColumns(); track column) {
-        <app-period-column [column]="column"
-                           (addIncome)="onAddIncome()"
-                           (updateIncome)="onUpdateIncome($event)"
-                           (deleteIncome)="onDeleteIncome($event)"/>
-      }
-    </div>
-  `,
-  styles: `
-    .column-scroll-container {
-      display: flex;
-      flex-grow: 1;
-      scroll-snap-align: start;
-    }
-
-    :host {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-  `
+  templateUrl: './planning-widget.html',
+  styleUrl: 'planning-widget.scss'
 })
 export class PlanningWidget {
   constructor(

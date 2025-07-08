@@ -1,0 +1,8 @@
+<div class="column-scroll-container">
+  @for (column of planningStore.getColumns(); track column) {
+    <app-period-column [column]="column"
+                       (addIncome)="onAddIncome()"
+                       (updateIncome)="onUpdateIncome($event)"
+                       (deleteIncome)="onDeleteIncome($event)"/>
+  }
+</div>

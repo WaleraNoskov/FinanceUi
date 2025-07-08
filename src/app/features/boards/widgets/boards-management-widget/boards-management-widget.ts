@@ -6,9 +6,7 @@ import {Board} from '../../../../core/entities/board';
 import {EditableBoardsList} from '../../components/editable-boards-list/editable-boards-list';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
-import {DeleteBoardDialog} from '../../components/delete-board-dialog/delete-board-dialog';
 import {DeleteBoardDialogService} from '../delete-board-dialog-service';
-import {async} from 'rxjs';
 
 @Component({
   selector: 'app-boards-management-widget',
@@ -18,37 +16,8 @@ import {async} from 'rxjs';
     MatPaginator,
     MatButton
   ],
-  template: `
-    <div class="board-container">
-      <button class="add-button" matButton="outlined" (click)="openAddDialog()">
-        <mat-icon>add</mat-icon>
-        <span>Add</span>
-      </button>
-
-      <app-editable-boards-list [boardList]="store.getBoards()" (deleted)="delete($event)"
-                                (selected)="store.setSelectedBoard($event)"
-                                (needToUpdate)="onUpdateEmitted($event)"/>
-    </div>
-
-    <mat-paginator
-      [pageSize]="fixedPageSize == null ? pageSize() : fixedPageSize"
-      [pageIndex]="pageIndex()"
-      [length]="store.getBoardsCount()"
-      [hidePageSize]="true"
-      [pageSizeOptions]="[5, 10, 20]"
-      (page)="onPageChange($event)">
-    </mat-paginator>
-  `,
-  styles: `
-    .board-container {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .add-button {
-      align-self: end;
-    }
-  `
+  templateUrl: 'boards-management-widget.html',
+  styleUrl: 'boards-management-widget.scss'
 })
 export class BoardsManagementWidget {
   @Input() fixedPageSize?: number | null;

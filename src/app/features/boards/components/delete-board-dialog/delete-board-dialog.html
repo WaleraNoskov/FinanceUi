@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Delete Board</h2>
+
+<form [formGroup]="form" (ngSubmit)="onConfirm()" class="delete-form">
+  <mat-dialog-content>
+    <p>To delete the board, type its name <strong>{{ data.boardName }}</strong> below:</p>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Board Name</mat-label>
+      <input matInput formControlName="confirmation" autocomplete="off"/>
+      @if (this.form.controls['confirmation'].hasError('required')) {
+        <mat-error>
+          Name is required
+        </mat-error>
+      }
+      @if (this.form.controls['confirmation'].hasError('mismatch')) {
+        <mat-error>
+          Name does not match
+        </mat-error>
+      }
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button matButton="filled" color="warn" type="submit" [disabled]="form.invalid">Delete</button>
+    <button matButton="outlined" type="button" (click)="onCancel()">Cancel</button>
+  </mat-dialog-actions>
+</form>

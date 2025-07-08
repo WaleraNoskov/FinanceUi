@@ -13,26 +13,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
     MatListOption,
     MatPaginator
   ],
-  template: `
-    <mat-expansion-panel>
-      <mat-expansion-panel-header><span>{{ store.getSelected()?.title }}</span></mat-expansion-panel-header>
-
-      <mat-selection-list [multiple]="false">
-        @for (board of store.getBoards(); track board.id) {
-          <mat-list-option [value]="board" [selected]="store.getSelected()?.id == board.id"
-                           (selectedChange)="store.setSelectedBoard(board)">
-            <span matListItemTitle>{{ board.title }}</span>
-          </mat-list-option>
-        }
-      </mat-selection-list>
-      <mat-paginator
-        [pageSize]="5"
-        [pageIndex]="pageIndex()"
-        [length]="store.getBoardsCount()"
-        (page)="onPageChange($event)">
-      </mat-paginator>
-    </mat-expansion-panel>
-  `,
+  templateUrl: './select-board-widget.html',
   styles: ``
 })
 export class SelectBoardWidget {

@@ -1,0 +1,17 @@
+@if (form) {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+    <h3>{{ isEditMode ? 'Edit board' : 'Create board' }}</h3>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" required>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ isEditMode ? 'Save' : 'Create' }}
+      </button>
+      <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+}

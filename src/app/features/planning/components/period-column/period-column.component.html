@@ -1,0 +1,11 @@
+<mat-toolbar class="header">
+  <mat-toolbar-row>
+    <h1>{{ column!.date.toLocaleString('default', {month: 'long'}) }}</h1>
+    <h2>{{ column!.date.toLocaleString('default', {month: '2-digit', day: '2-digit'}) }}</h2>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<app-incomes [column]="column"
+             (add)="addIncome.emit()"
+             (update)="updateIncome.emit($event)"
+             (delete)="deleteIncome.emit($event)"/>

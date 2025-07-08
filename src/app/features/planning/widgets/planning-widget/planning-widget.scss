@@ -1,0 +1,11 @@
+.column-scroll-container {
+  display: flex;
+  flex-grow: 1;
+  scroll-snap-align: start;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}

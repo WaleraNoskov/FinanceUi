@@ -18,33 +18,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
     MatMenuTrigger,
     MatMenuItem
   ],
-  template: `
-    <div>
-      <mat-list>
-        @for (board of boardList; track board.id) {
-          <mat-list-item>
-            <span matListItemTitle>{{ board.title }}</span>
-            <div matListItemMeta>
-              <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="update(board)">
-                  <mat-icon>edit</mat-icon>
-                  <span>Edit</span>
-                </button>
-                <button mat-menu-item (click)="delete(board)">
-                  <mat-icon>delete</mat-icon>
-                  <span>Delete</span>
-                </button>
-              </mat-menu>
-            </div>
-          </mat-list-item>
-        }
-      </mat-list>
-    </div>
-  `,
-  styles: ``
+  templateUrl: './editable-boards-list.html',
 })
 export class EditableBoardsList {
   @Input() boardList: Board[] = [];
