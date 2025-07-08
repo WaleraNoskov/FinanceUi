@@ -92,7 +92,6 @@ class PeriodColumnBuilder {
 
   withIncomes(incomes: Income[]): this {
     this.incomes = incomes.filter(income => this.isInPeriod(income.date));
-    console.log(this.incomes)
     return this;
   }
 

@@ -4,6 +4,7 @@ import {GoalsPage} from './pages/Goals/goals-page/goals-page';
 import {PlanningPage} from './pages/planning/planning-page/planning-page';
 
 export const routes: Routes = [
+  {path: '', component: PlanningPage},
   {path: 'goals', component: GoalsPage},
   {path: 'settings', component: SettingsPage},
   {path: 'planning', component: PlanningPage},
