@@ -3,18 +3,26 @@ import {BoardStore} from '../../board-store';
 import {AddOrEditBoardDialogService} from '../add-or-edit-board-service';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Board} from '../../../../core/entities/board';
-import {EditableBoardsList} from '../../components/editable-boards-list/editable-boards-list';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {DeleteBoardDialogService} from '../delete-board-dialog-service';
+import {MatList, MatListItem, MatListItemMeta, MatListItemTitle} from '@angular/material/list';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-boards-management-widget',
   imports: [
-    EditableBoardsList,
     MatIcon,
     MatPaginator,
-    MatButton
+    MatButton,
+    MatIconButton,
+    MatList,
+    MatListItem,
+    MatListItemMeta,
+    MatListItemTitle,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger
   ],
   templateUrl: 'boards-management-widget.html',
   styleUrl: 'boards-management-widget.scss'
@@ -49,7 +57,7 @@ export class BoardsManagementWidget {
     })
   }
 
-  async onUpdateEmitted(board: Board) {
+  async update(board: Board) {
     this.addOrEditBoardDialogService.open(board).subscribe(async board => {
       if (board)
         await this.store.updateBoard(board);

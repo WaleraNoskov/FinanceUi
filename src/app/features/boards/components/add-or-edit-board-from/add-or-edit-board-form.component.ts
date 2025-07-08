@@ -1,11 +1,10 @@
-import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {Board} from '../../../../core/entities/board';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-add-or-edit-board-form',
@@ -33,7 +32,7 @@ export class AddOrEditBoardForm implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public board: Board | null,
+    public board: Board | null,
   ) {}
 
   ngOnInit() {
